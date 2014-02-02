@@ -436,8 +436,7 @@
         </plugins>
     </reporting>
     <distributionManagement>
-
-	<repository>
+	<!--  <repository>
             <id>wso2-maven2-repository</id>
             <name>WSO2 Maven2 Repository</name>
             <url>scp://dist.wso2.org/home/httpd/dist.wso2.org/maven2/</url>
@@ -446,17 +445,17 @@
             <id>wso2-maven2-snapshot-repository</id>
             <name>WSO2 Maven2 Snapshot Repository</name>
             <url>scp://dist.wso2.org/home/httpd/dist.wso2.org/snapshots/maven2/</url>
-        </snapshotRepository>
-        <!--<snapshotRepository>
-            <id>apache.snapshots.https</id>
-            <name>${distMgmtSnapshotsName}</name>
-            <url>${distMgmtSnapshotsUrl}</url>
-            <uniqueVersion>false</uniqueVersion>
-        </snapshotRepository>
-        <site>
-            <id>website</id>
-            <url>scpexe://people.apache.org/www/ws.apache.org/commons/axiom</url>
-        </site>-->
+        </snapshotRepository>  -->           
+      <repository>
+        <id>wso2.releases</id>
+        <name>WSO2 Release Distribution Repository</name>
+        <url>http://maven.wso2.org/nexus/content/repositories/releases/</url>
+      </repository>
+      <snapshotRepository>
+        <id>wso2.snapshots</id>
+        <name>Internal Releases</name>
+        <url>http://maven.wso2.org/nexus/content/repositories/snapshots/</url>
+     </snapshotRepository>       
     </distributionManagement>
     <properties>
         <stax.impl.groupid>org.codehaus.woodstox</stax.impl.groupid>
