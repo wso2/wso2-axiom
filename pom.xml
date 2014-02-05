@@ -230,11 +230,11 @@
             <email>jochen.wiedmann AT gmail.com</email>
         </contributor>
     </contributors>
-    <scm>
+    <!--<scm>
         <connection>scm:svn:http://svn.apache.org/repos/asf/webservices/commons/tags/axiom/1.2.11</connection>
         <developerConnection>scm:svn:https://svn.apache.org/repos/asf/webservices/commons/tags/axiom/1.2.11</developerConnection>
         <url>http://svn.apache.org/viewvc/webservices/commons/tags/axiom/1.2.11</url>
-    </scm>
+    </scm> -->
     <properties>
         <!-- This variable is used in some Xdocs and is substituted using Velocity. Note that
              we can't use the project.version variable directly because of the dot. See
