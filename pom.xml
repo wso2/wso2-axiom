@@ -31,11 +31,11 @@
     <packaging>pom</packaging>
     <description>AXIOM API</description>
     <url>http://ws.apache.org/axiom/</url>
-    <issueManagement>
+  <!--  <issueManagement>
         <system>JIRA</system>
         <url>http://issues.apache.org/jira/browse/AXIOM</url>
-    </issueManagement>
-    <mailingLists>
+    </issueManagement>  -->
+  <!--  <mailingLists>
         <mailingList>
             <name>Users</name>
             <subscribe>users-subscribe@ws.apache.org</subscribe>
@@ -60,7 +60,7 @@
             <name>WS Commons Developers (old)</name>
             <archive>http://mail-archives.apache.org/mod_mbox/ws-commons-dev/</archive>
         </mailingList>
-    </mailingLists>
+    </mailingLists> -->
     <inceptionYear>2004</inceptionYear>
     <developers>
         <developer>
