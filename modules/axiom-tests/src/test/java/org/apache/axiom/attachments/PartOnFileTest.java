@@ -23,6 +23,7 @@ import org.apache.axiom.om.AbstractTestCase;
 import org.apache.axiom.om.TestConstants;
 
 import javax.activation.DataHandler;
+import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import java.io.File;
 import java.io.InputStream;
@@ -52,18 +53,18 @@ public class PartOnFileTest extends AbstractTestCase {
         Attachments attachments =
                 new Attachments(inStream, TestConstants.MTOM_MESSAGE_CONTENT_TYPE, true, temp.getPath(), "1");
 
-        DataHandler p = attachments
+        DataHandler dh = attachments
                 .getDataHandler("1.urn:uuid:A3ADBAEE51A1A87B2A11443668160943@apache.org");
+        
+        assertNotNull(dh);
 
-        if (!(p.getDataSource() instanceof FileDataSource)) {
-            fail("Expected PartOnFile");
+        DataSource ds = dh.getDataSource();
+        assertNotNull(ds);
+        if (!(ds instanceof FileDataSource)) {
+            fail("Expected FileDataSource, but got " + ds.getClass().getName());
         }
 
-//		assertEquals("<1.urn:uuid:A3ADBAEE51A1A87B2A11443668160943@apache.org>", p.getContentID());
-        assertEquals("image/jpeg", p.getContentType());
-
-//		p.addHeader("Some-New-Header", "TestNH");
-//		assertEquals(p.getHeader("Some-New-Header"), "TestNH");
+        assertEquals("image/jpeg", dh.getContentType());
     }
 
     public void testGetAllheaders() throws Exception {
