@@ -38,7 +38,7 @@
   <!--  <mailingLists>
         <mailingList>
             <name>Users</name>
-            <subscribe>users-subscribe@ws.apache.org   </subscribe>
+            <subscribe>users-subscribe@ws.apache.org</subscribe>
             <unsubscribe>users-unsubscribe@ws.apache.org</unsubscribe>
             <post>users@ws.apache.org</post>
             <archive>http://mail-archives.apache.org/mod_mbox/ws-users/</archive>
