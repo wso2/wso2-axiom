@@ -31,7 +31,9 @@
     <packaging>pom</packaging>
     <description>AXIOM API</description>
     <url>http://ws.apache.org/axiom/</url>
-  <!--  <issueManagement>
+  <!--  
+  EDIT -1 
+  <issueManagement>
         <system>JIRA</system>
         <url>http://issues.apache.org/jira/browse/AXIOM </url>
     </issueManagement>  -->
