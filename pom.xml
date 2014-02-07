@@ -24,7 +24,7 @@
         <artifactId>apache</artifactId>
         <version>8</version>
     </parent>   
-    <groupId>org.apache.ws.commons.axiom</groupId
+    <groupId>org.apache.ws.commons.axiom</groupId>
     <artifactId>axiom</artifactId>
     <name>Axiom</name>
     <version>1.2.11-wso2v5-SNAPSHOT</version>
