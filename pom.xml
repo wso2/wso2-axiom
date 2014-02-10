@@ -40,7 +40,11 @@
   EDIT -5 by Geeth 2014-02-10
   EDIT -6 Done by Geeth
   
+<<<<<<< HEAD
   EDIT - 7 Done by Geeth -Display only
+=======
+  EDIT - 7 Done by Geeth 2014-02-10 16:10
+>>>>>>> a07037e89d61cedb61a83b8a649265fa2c77f8f0
   
   <issueManagement>
         <system>JIRA</system>
