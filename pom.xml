@@ -36,7 +36,11 @@
   EDIT - 2 
   EDIT - 3 
   EDIT -4 by geeeth
+<<<<<<< HEAD
   
+=======
+  EDIT -5 by Geeth 2014-02-10
+>>>>>>> c180315a05379420c419fb6428913204bd01624a
   <issueManagement>
         <system>JIRA</system>
         <url>http://issues.apache.org/jira/browse/AXIOM </url>
