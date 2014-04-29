@@ -13,6 +13,8 @@ Documentation can be found within this release and in the main site.
 ___________________
 Support
 ===================
+
+Edit by Sagara - 1
  
 Any problem with this release can be reported to Apache Web Services mailing lists. 
 If you are sending an email to the mailing list make sure to add the [Axiom] prefix to the subject.
