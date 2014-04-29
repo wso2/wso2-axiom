@@ -10,6 +10,8 @@ Documentation
  
 Documentation can be found within this release and in the main site.
 
+Edit by Sagara - 1
+
 ___________________
 Support
 ===================
