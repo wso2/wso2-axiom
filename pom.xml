@@ -13,7 +13,10 @@
     <packaging>pom</packaging>
     <description>AXIOM API</description>
     <url>http://ws.apache.org/axiom/</url>
-  <!--  <issueManagement>
+    
+  <!--
+  IM A BOT
+  <issueManagement>
         <system>JIRA</system>
         <url>http://issues.apache.org/jira/browse/AXIOM</url>
     </issueManagement>  -->
