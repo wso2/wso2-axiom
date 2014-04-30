@@ -13,11 +13,7 @@ Documentation can be found within this release and in the main site.
 ___________________
 Support
 ===================
- 
-TEST 2 
-TEST 3
-TEST 4
-TEST 5
+
 
 Any problem with this release can be reported to Apache Web Services mailing lists. 
 If you are sending an email to the mailing list make sure to add the [Axiom] prefix to the subject.
@@ -29,9 +25,4 @@ dev-subscribe@ws.apache.org
 
 Thank you for using Axiom!
 
-
 The Apache Axiom Team.
-
-
-
-
