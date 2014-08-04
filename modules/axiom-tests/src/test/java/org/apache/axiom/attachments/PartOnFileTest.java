@@ -60,7 +60,7 @@ public class PartOnFileTest extends AbstractTestCase {
         DataSource ds = dh.getDataSource();
         assertNotNull(ds);
         if (!(ds instanceof DataSource)) {
-            fail("Expected FileDataSource, but got " + ds.getClass().getName());
+            fail("Expected DataSource, but got " + ds.getClass().getName());
         }
 
         assertEquals("image/jpeg", dh.getContentType());
