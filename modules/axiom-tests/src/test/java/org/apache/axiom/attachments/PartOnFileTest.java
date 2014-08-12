@@ -24,7 +24,6 @@ import org.apache.axiom.om.TestConstants;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
-import javax.activation.FileDataSource;
 import java.io.File;
 import java.io.InputStream;
 
@@ -60,8 +59,8 @@ public class PartOnFileTest extends AbstractTestCase {
 
         DataSource ds = dh.getDataSource();
         assertNotNull(ds);
-        if (!(ds instanceof FileDataSource)) {
-            fail("Expected FileDataSource, but got " + ds.getClass().getName());
+        if (!(ds instanceof DataSource)) {
+            fail("Expected DataSource, but got " + ds.getClass().getName());
         }
 
         assertEquals("image/jpeg", dh.getContentType());
