@@ -257,17 +257,6 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <artifactId>maven-release-plugin</artifactId>
-                    <configuration>
-                        <tagBase>https://svn.apache.org/repos/asf/webservices/commons/tags/axiom</tagBase>
-                        <autoVersionSubmodules>true</autoVersionSubmodules>
-                        <!-- The default value "clean verify" is not appropriate. If the install
-                             phase is not executed, then the current build will pick up artifacts
-                             from a previous build. -->
-                        <preparationGoals>clean install</preparationGoals>
-                    </configuration>
-                </plugin>
-                <plugin>
                     <artifactId>maven-site-plugin</artifactId>
                     <version>2.1.1</version>
                 </plugin>
