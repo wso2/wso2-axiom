@@ -33,12 +33,6 @@
         as it seems. The intention is to start with axiom-test and continuosly move
         parts to the actual projects.
     </description>
-    <!-- This needs to be set explicitly because the project structure implies that the Maven calculated defaults are wrong -->
-    <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/webservices/commons/tags/axiom/1.2.11/modules/axiom-tests</connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/webservices/commons/tags/axiom/1.2.11/modules/axiom-tests</developerConnection>
-        <url>http://svn.apache.org/viewvc/webservices/commons/tags/axiom/1.2.11/modules/axiom-tests</url>
-    </scm>
     <!-- This also needs to be set explicitly because the Maven calculated URL would point to nowhere -->
     <url>http://ws.apache.org/axiom/</url>
     <dependencies>

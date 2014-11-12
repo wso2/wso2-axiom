@@ -224,11 +224,6 @@
             <email>jochen.wiedmann AT gmail.com</email>
         </contributor>
     </contributors>
-    <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/webservices/commons/tags/axiom/1.2.11/modules/axiom-parent</connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/webservices/commons/tags/axiom/1.2.11/modules/axiom-parent</developerConnection>
-        <url>http://svn.apache.org/viewvc/webservices/commons/tags/axiom/1.2.11/modules/axiom-parent</url>
-    </scm>
     <build>
 
 	<extensions>
@@ -327,6 +322,26 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -436,26 +451,26 @@
         </plugins>
     </reporting>
     <distributionManagement>
-	<!--  <repository>
-            <id>wso2-maven2-repository</id>
-            <name>WSO2 Maven2 Repository</name>
-            <url>scp://dist.wso2.org/home/httpd/dist.wso2.org/maven2/</url>
+        <!--  <repository>
+                <id>wso2-maven2-repository</id>
+                <name>WSO2 Maven2 Repository</name>
+                <url>scp://dist.wso2.org/home/httpd/dist.wso2.org/maven2/</url>
+            </repository>
+         <snapshotRepository>
+                <id>wso2-maven2-snapshot-repository</id>
+                <name>WSO2 Maven2 Snapshot Repository</name>
+                <url>scp://dist.wso2.org/home/httpd/dist.wso2.org/snapshots/maven2/</url>
+            </snapshotRepository>  -->
+        <repository>
+            <id>nexus-releases</id>
+            <name>WSO2 Nexus Release Repository</name>
+            <url>http://maven.wso2.org/nexus/service/local/staging/deploy/maven2/</url>
         </repository>
-	 <snapshotRepository>
-            <id>wso2-maven2-snapshot-repository</id>
-            <name>WSO2 Maven2 Snapshot Repository</name>
-            <url>scp://dist.wso2.org/home/httpd/dist.wso2.org/snapshots/maven2/</url>
-        </snapshotRepository>  -->           
-      <repository>
-        <id>wso2.releases</id>
-        <name>WSO2 Release Distribution Repository</name>
-        <url>http://maven.wso2.org/nexus/content/repositories/releases/</url>
-      </repository>
-      <snapshotRepository>
-        <id>wso2.snapshots</id>
-        <name>Internal Releases</name>
-        <url>http://maven.wso2.org/nexus/content/repositories/snapshots/</url>
-     </snapshotRepository>       
+        <snapshotRepository>
+            <id>wso2.snapshots</id>
+            <name>Internal Releases</name>
+            <url>http://maven.wso2.org/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
     <properties>
         <stax.impl.groupid>org.codehaus.woodstox</stax.impl.groupid>

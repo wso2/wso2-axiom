@@ -31,6 +31,14 @@
     <packaging>pom</packaging>
     <description>AXIOM API</description>
     <url>http://ws.apache.org/axiom/</url>
+
+    <scm>
+        <url>https://github.com/wso2/wso2-axiom.git</url>
+        <developerConnection>scm:git:https://github.com/wso2/wso2-axiom.git</developerConnection>
+        <connection>scm:git:https://github.com/wso2/wso2-axiom.git</connection>
+        <tag>HEAD</tag>
+    </scm>
+
   <!--  <issueManagement>
         <system>JIRA</system>
         <url>http://issues.apache.org/jira/browse/AXIOM</url>
@@ -230,16 +238,12 @@
             <email>jochen.wiedmann AT gmail.com</email>
         </contributor>
     </contributors>
-    <!--<scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/webservices/commons/tags/axiom/1.2.11</connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/webservices/commons/tags/axiom/1.2.11</developerConnection>
-        <url>http://svn.apache.org/viewvc/webservices/commons/tags/axiom/1.2.11</url>
-    </scm> -->
     <properties>
         <!-- This variable is used in some Xdocs and is substituted using Velocity. Note that
              we can't use the project.version variable directly because of the dot. See
              http://maven.apache.org/plugins/maven-site-plugin/examples/creating-content.html -->
         <axiom_version>${project.version}</axiom_version>
+        <project.scm.id>scm-server</project.scm.id>
     </properties>
 
      <build>
@@ -290,6 +294,23 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
            <!-- <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -519,27 +540,32 @@
             </plugin>
         </plugins>
     </reporting> -->
-    <distributionManagement> 
-	<!-- <repository>
-            <id>wso2-maven2-repository</id>
-            <name>WSO2 Maven2 Repository</name>
-            <url>scp://dist.wso2.org/home/httpd/dist.wso2.org/maven2/</url>
+    <distributionManagement>
+        <!-- <repository>
+                <id>wso2-maven2-repository</id>
+                <name>WSO2 Maven2 Repository</name>
+                <url>scp://dist.wso2.org/home/httpd/dist.wso2.org/maven2/</url>
+            </repository>
+         <snapshotRepository>
+                <id>wso2-maven2-snapshot-repository</id>
+                <name>WSO2 Maven2 Snapshot Repository</name>
+                <url>scp://dist.wso2.org/home/httpd/dist.wso2.org/snapshots/maven2/</url>
+            </snapshotRepository>    -->
+        <!--repository>
+          <id>wso2.releases</id>
+          <name>WSO2 Release Distribution Repository</name>
+          <url>http://maven.wso2.org/nexus/content/repositories/releases/</url>
+        </repository-->
+        <repository>
+            <id>nexus-releases</id>
+            <name>WSO2 Nexus Release Repository</name>
+            <url>http://maven.wso2.org/nexus/service/local/staging/deploy/maven2/</url>
         </repository>
-	 <snapshotRepository>
-            <id>wso2-maven2-snapshot-repository</id>
-            <name>WSO2 Maven2 Snapshot Repository</name>
-            <url>scp://dist.wso2.org/home/httpd/dist.wso2.org/snapshots/maven2/</url>
-        </snapshotRepository>    --> 
-      <repository>
-        <id>wso2.releases</id>
-        <name>WSO2 Release Distribution Repository</name>
-        <url>http://maven.wso2.org/nexus/content/repositories/releases/</url>
-      </repository>
-      <snapshotRepository>
-        <id>wso2.snapshots</id>
-        <name>Internal Releases</name>
-        <url>http://maven.wso2.org/nexus/content/repositories/snapshots/</url>
-     </snapshotRepository>     
+        <snapshotRepository>
+            <id>wso2.snapshots</id>
+            <name>Internal Releases</name>
+            <url>http://maven.wso2.org/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
     <modules>
         <module>modules/axiom-parent</module>
