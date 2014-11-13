@@ -15,16 +15,14 @@
  ~ specific language governing permissions and limitations
  ~ under the License.
  -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.apache.ws.commons.axiom.wso2</groupId>
     <artifactId>axiom</artifactId>
     <packaging>bundle</packaging>
     <name>axiom.wso2</name>
-    <version>1.2.11.wso2v5-SNAPSHOT</version>
+    <version>1.2.11.wso2v5</version>
     <description>
         org.wso2.carbon.axiom. This bundle will contain all axiom
         releated packages. This also include xml-apis, xml-resolver,
@@ -316,7 +314,7 @@
     </distributionManagement>
 
     <properties>
-        <axiom.version>1.2.11-wso2v5-SNAPSHOT</axiom.version>
+        <axiom.version>1.2.11-wso2v5</axiom.version>
         <exp.pkg.version.axiom>1.2.11.wso2v5</exp.pkg.version.axiom>
         <jaxen.version>1.1.1</jaxen.version>
         <javax.mail.version>1.4</javax.mail.version>
