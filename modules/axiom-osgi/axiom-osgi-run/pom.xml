@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.apache.ws.commons.axiom</groupId>
         <artifactId>axiom-osgi</artifactId>
-        <version>1.2.11-wso2v5</version>
+        <version>1.2.11-wso2v6-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>axiom-osgi-run</artifactId>
