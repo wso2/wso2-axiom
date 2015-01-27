@@ -36,8 +36,8 @@ import org.apache.commons.io.output.NullOutputStream;
  * <p>
  * Regression test for <a href="https://issues.apache.org/jira/browse/AXIOM-236">AXIOM-236</a>.
  */
-public class TestBase64Streaming extends AxiomTestCase {
-    public TestBase64Streaming(OMMetaFactory metaFactory) {
+public class TestBase64StreamingWithSerialize extends AxiomTestCase {
+    public TestBase64StreamingWithSerialize(OMMetaFactory metaFactory) {
         super(metaFactory);
     }
 
