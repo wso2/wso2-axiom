@@ -122,6 +122,7 @@ public class OMTestSuiteBuilder extends AxiomTestSuiteBuilder {
         addTest(new org.apache.axiom.ts.om.node.TestInsertSiblingBeforeOnChild(metaFactory));
         addTest(new org.apache.axiom.ts.om.node.TestInsertSiblingBeforeOnOrphan(metaFactory));
         addTest(new org.apache.axiom.ts.om.node.TestInsertSiblingBeforeOnSelf(metaFactory));
-        addTest(new org.apache.axiom.ts.om.text.TestBase64Streaming(metaFactory));
+        addTest(new org.apache.axiom.ts.om.text.TestGetTextCharactersFromDataHandler(metaFactory));
+        addTest(new org.apache.axiom.ts.om.text.TestBase64StreamingWithSerialize(metaFactory));
     }
 }

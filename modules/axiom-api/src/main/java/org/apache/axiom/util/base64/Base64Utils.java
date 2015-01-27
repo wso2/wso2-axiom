@@ -54,8 +54,20 @@ public class Base64Utils {
         return (unencodedSize+2) / 3 * 4;
     }
     
+    private static int getBufferSize(DataHandler dh) {
+        long size = DataSourceUtils.getSize(dh.getDataSource());
+        if (size == -1) {
+            // Use a reasonable default capacity.
+            return 4096;
+        } else if (size > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("DataHandler is too large to encode to string");
+        } else {
+            return getEncodedSize((int)size);
+        }
+    }
+    
     /**
-     * Get a base64 representation of the content of a given {@link DataHandler}.
+     * Get a base64 representation of the content of a given {@link DataHandler} as a string.
      * This method will try to carry out the encoding operation in the most efficient way.
      * 
      * @param dh the data handler with the content to encode
@@ -63,22 +75,29 @@ public class Base64Utils {
      * @throws IOException if an I/O error occurs when reading the content of the data handler
      */
     public static String encode(DataHandler dh) throws IOException {
-        long size = DataSourceUtils.getSize(dh.getDataSource());
-        StringBuffer buffer;
-        if (size == -1) {
-            // Use a reasonable default capacity (better than the default of 16).
-            buffer = new StringBuffer(4096);
-        } else if (size > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("DataHandler is too large to encode to string");
-        } else {
-            buffer = new StringBuffer(getEncodedSize((int)size));
-        }
+        StringBuffer buffer = new StringBuffer(getBufferSize(dh));
         Base64EncodingStringBufferOutputStream out = new Base64EncodingStringBufferOutputStream(buffer);
         // Always prefer writeTo, because getInputStream will create a thread and a pipe if
         // the DataHandler was constructed using an object instead of a DataSource
         dh.writeTo(out);
         out.complete();
         return buffer.toString();
+    }
+
+    /**
+     * Get a base64 representation of the content of a given {@link DataHandler} as a char array.
+     * This method will try to carry out the encoding operation in the most efficient way.
+     * 
+     * @param dh the data handler with the content to encode
+     * @return the base64 encoded content
+     * @throws IOException if an I/O error occurs when reading the content of the data handler
+     */
+    public static char[] encodeToCharArray(DataHandler dh) throws IOException {
+        NoCopyCharArrayWriter buffer = new NoCopyCharArrayWriter(getBufferSize(dh));
+        Base64EncodingWriterOutputStream out = new Base64EncodingWriterOutputStream(buffer);
+        dh.writeTo(out);
+        out.complete();
+        return buffer.toCharArray();
     }
 
     private static int decode0(char[] ibuf, byte[] obuf, int wp) {
