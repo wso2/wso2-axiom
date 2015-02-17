@@ -30,6 +30,16 @@
     <description>
         Contains unit test code from Jaxen.
     </description>
+
+    <!-- This needs to be set explicitly because the project structure implies that the Maven calculated defaults are wrong -->
+    <scm>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/webservices/commons/tags/axiom/1.2.11/modules/axiom-integration</connection>
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/webservices/commons/tags/axiom/1.2.11/modules/axiom-integration</developerConnection>
+        <url>http://svn.apache.org/viewvc/webservices/commons/tags/axiom/1.2.11/modules/axiom-integration</url>
+    </scm>
+
+
+
     <!-- This also needs to be set explicitly because the Maven calculated URL would point to nowhere -->
     <url>http://ws.apache.org/axiom/</url>
     <dependencies>
