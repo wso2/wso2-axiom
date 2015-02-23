@@ -301,16 +301,20 @@
                 <name>WSO2 Maven2 Snapshot Repository</name>
                 <url>scp://dist.wso2.org/home/httpd/dist.wso2.org/snapshots/maven2/</url>
             </snapshotRepository>  -->
-        <repository>
-            <id>nexus-releases</id>
-            <name>WSO2 Nexus Release Repository</name>
-            <url>http://maven.wso2.org/nexus/service/local/staging/deploy/maven2/</url>
-        </repository>
-        <snapshotRepository>
-            <id>wso2.snapshots</id>
-            <name>Internal Releases</name>
-            <url>http://maven.wso2.org/nexus/content/repositories/snapshots/</url>
-        </snapshotRepository>
+
+
+      <repository>
+        <id>wso2.releases</id>
+        <name>WSO2 Release Distribution Repository</name>
+        <url>http://maven.wso2.org/nexus/content/repositories/releases/</url>
+      </repository>
+      <snapshotRepository>
+        <id>wso2.snapshots</id>
+        <name>Internal Releases</name>
+        <url>http://maven.wso2.org/nexus/content/repositories/snapshots/</url>
+     </snapshotRepository>
+
+
     </distributionManagement>
 
     <properties>

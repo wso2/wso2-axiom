@@ -260,6 +260,20 @@
                     <artifactId>maven-site-plugin</artifactId>
                     <version>2.1.1</version>
                 </plugin>
+
+		<plugin>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <configuration>
+                        <tagBase>https://svn.apache.org/repos/asf/webservices/commons/tags/axiom</tagBase>
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                        <!-- The default value "clean verify" is not appropriate. If the install
+                             phase is not executed, then the current build will pick up artifacts
+                             from a previous build. -->
+                        <preparationGoals>clean install</preparationGoals>
+                    </configuration>
+                </plugin>
+
+
             </plugins>
         </pluginManagement>
         <plugins>
@@ -545,16 +559,21 @@
           <name>WSO2 Release Distribution Repository</name>
           <url>http://maven.wso2.org/nexus/content/repositories/releases/</url>
         </repository-->
-        <repository>
-            <id>nexus-releases</id>
-            <name>WSO2 Nexus Release Repository</name>
-            <url>http://maven.wso2.org/nexus/service/local/staging/deploy/maven2/</url>
-        </repository>
+
+	<repository>
+        <id>wso2.releases</id>
+        <name>WSO2 Release Distribution Repository</name>
+        <url>http://maven.wso2.org/nexus/content/repositories/releases/</url>
+      </repository>
+
+
         <snapshotRepository>
             <id>wso2.snapshots</id>
             <name>Internal Releases</name>
             <url>http://maven.wso2.org/nexus/content/repositories/snapshots/</url>
         </snapshotRepository>
+
+      
     </distributionManagement>
     <modules>
         <module>modules/axiom-parent</module>
@@ -566,7 +585,7 @@
         <module>modules/axiom-dom</module>
         <module>modules/axiom-c14n</module>
         <module>modules/axiom-tests</module>
-        <module>modules/axiom-osgi</module>
+	<!-- <module>modules/axiom-osgi</module> -->
         <module>modules/axiom-integration</module>
         <module>orbit</module>
     </modules>

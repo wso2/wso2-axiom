@@ -29,6 +29,15 @@
     <name>Axiom API</name>
     <description>The Axiom API</description>
     <packaging>bundle</packaging>
+
+    <!-- This needs to be set explicitly because the project structure implies that the Maven calculated defaults are wrong -->
+    <scm>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/webservices/commons/tags/axiom/1.2.11/modules/axiom-api</connection>
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/webservices/commons/tags/axiom/1.2.11/modules/axiom-api</developerConnection>
+        <url>http://svn.apache.org/viewvc/webservices/commons/tags/axiom/1.2.11/modules/axiom-api</url>
+    </scm>
+
+
     <!-- This also needs to be set explicitly because the Maven calculated URL would point to nowhere -->
     <url>http://ws.apache.org/axiom/</url>
     <dependencies>
