@@ -33,11 +33,13 @@ public class DialectTest extends TestSuite {
     private final ClassLoader classLoader;
     private final Properties props;
     private StAXDialect dialect;
+    private String name;
     
     public DialectTest(ClassLoader classLoader, String name, Properties props) {
         super(name);
         this.classLoader = classLoader;
         this.props = props;
+        this.name = name;
         String[] conformanceTestFiles = AbstractTestCase.getConformanceTestFiles();
         addDialectTest(new CreateXMLEventWriterWithNullEncodingTestCase());
         addDialectTest(new CreateXMLStreamReaderThreadSafetyTestCase());
@@ -177,7 +179,15 @@ public class DialectTest extends TestSuite {
             ClassLoader savedClassLoader = Thread.currentThread().getContextClassLoader();
             Thread.currentThread().setContextClassLoader(classLoader);
             try {
-                factory = XMLInputFactory.newInstance();
+                if (name.equals("sjsxp-1.0.1.jar")) {
+                    try {
+                        factory = (XMLInputFactory)classLoader.loadClass("com.sun.xml.stream.ZephyrParserFactory").newInstance();
+                    } catch (Exception ex) {
+                        throw new FactoryConfigurationError(ex);
+                    }
+                } else {
+                    factory = XMLInputFactory.newInstance();
+                }
             } finally {
                 Thread.currentThread().setContextClassLoader(savedClassLoader);
             }
@@ -213,7 +223,15 @@ public class DialectTest extends TestSuite {
             ClassLoader savedClassLoader = Thread.currentThread().getContextClassLoader();
             Thread.currentThread().setContextClassLoader(classLoader);
             try {
-                factory = XMLOutputFactory.newInstance();
+                if (name.equals("sjsxp-1.0.1.jar")) {
+                    try {
+                        factory = (XMLOutputFactory) classLoader.loadClass("com.sun.xml.stream.ZephyrWriterFactory").newInstance();
+                    } catch (Exception ex) {
+                        throw new FactoryConfigurationError(ex);
+                    }
+                } else {
+                    factory = XMLOutputFactory.newInstance();
+                }
             } finally {
                 Thread.currentThread().setContextClassLoader(savedClassLoader);
             }

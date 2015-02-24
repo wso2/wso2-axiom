@@ -566,7 +566,7 @@
         <module>modules/axiom-dom</module>
         <module>modules/axiom-c14n</module>
         <module>modules/axiom-tests</module>
-        <module>modules/axiom-osgi</module>
+        <!--<module>modules/axiom-osgi</module>-->
         <module>modules/axiom-integration</module>
         <module>orbit</module>
     </modules>
