@@ -269,7 +269,17 @@ public class OMTextImpl extends OMNodeImpl implements OMText, OMConstants {
     }
 
     public char[] getTextCharacters() {
-        return charArray != null ? charArray : value.toCharArray();
+        if (charArray != null) {
+            return charArray;
+        } else if (value != null) {
+            return value.toCharArray();
+        } else {
+            try {
+                return Base64Utils.encodeToCharArray((DataHandler)getDataHandler());
+            } catch (IOException ex) {
+                throw new OMException(ex);
+            }
+        }
     }
 
     public boolean isCharacters() {

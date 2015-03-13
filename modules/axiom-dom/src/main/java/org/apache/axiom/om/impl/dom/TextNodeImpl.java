@@ -337,7 +337,17 @@ public abstract class TextNodeImpl extends CharacterImpl implements Text, OMText
     }
 
     public char[] getTextCharacters() {
-        return charArray != null ? charArray : this.textValue.toCharArray();
+        if (charArray != null) {
+            return charArray;
+        } else if (textValue != null) {
+            return textValue.toCharArray();
+        } else {
+            try {
+                return Base64Utils.encodeToCharArray((DataHandler)getDataHandler());
+            } catch (IOException ex) {
+                throw new OMException(ex);
+            }
+        }
     }
 
     public boolean isCharacters() {

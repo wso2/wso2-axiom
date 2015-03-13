@@ -30,20 +30,20 @@ public class RandomDataSource implements DataSource {
     private final long seed;
     private final int rangeStart;
     private final int rangeEnd;
-    private final int length;
+    private final long length;
 
-    public RandomDataSource(long seed, int rangeStart, int rangeEnd, int length) {
+    public RandomDataSource(long seed, int rangeStart, int rangeEnd, long length) {
         this.seed = seed;
         this.rangeStart = rangeStart;
         this.rangeEnd = rangeEnd;
         this.length = length;
     }
     
-    public RandomDataSource(long seed, int length) {
+    public RandomDataSource(long seed, long length) {
         this(seed, 0, 256, length);
     }
     
-    public RandomDataSource(int length) {
+    public RandomDataSource(long length) {
         this(System.currentTimeMillis(), length);
     }
 
@@ -58,7 +58,7 @@ public class RandomDataSource implements DataSource {
     public InputStream getInputStream() throws IOException {
         final Random random = new Random(seed);
         return new InputStream() {
-            private int position;
+            private long position;
             
             public int read() throws IOException {
                 if (position == length) {
