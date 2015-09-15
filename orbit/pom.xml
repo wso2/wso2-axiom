@@ -236,9 +236,9 @@
                             @mail-${javax.mail.version}.jar!/META-INF/javamail.default.address.map,
                             @mail-${javax.mail.version}.jar!/META-INF/javamail.default.providers,
                             @mail-${javax.mail.version}.jar!/META-INF/mailcap,
-                            src/main/resources/XMLInputFactory.properties,
                         </Include-Resource>
                         <Embed-Dependency>geronimo-stax-api_1.0_spec;stax2-api;woodstox-core-asl;inline=true</Embed-Dependency>
+                        <Include-Resource>src/main/resources/XMLInputFactory.properties</Include-Resource>
                     </instructions>
                 </configuration>
             </plugin>
