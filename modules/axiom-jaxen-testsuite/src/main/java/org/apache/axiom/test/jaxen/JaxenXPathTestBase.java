@@ -28,6 +28,7 @@ import java.util.List;
 
 import org.jaxen.FunctionCallException;
 import org.jaxen.Navigator;
+import org.jaxen.function.StringLengthFunction;
 import org.jaxen.test.XPathTestBase;
 
 public abstract class JaxenXPathTestBase extends XPathTestBase {
@@ -82,5 +83,15 @@ public abstract class JaxenXPathTestBase extends XPathTestBase {
                 }
             }
         };
+    }
+
+    /* test string-length with special chars
+    */
+    public void testStringLengthWIthSpecialChars() throws Exception {
+        Navigator nav = getNavigator();
+        String url = "xml/specialchar.xml";
+        log("Document [" + url + "]");
+        Object document = nav.getDocument(url);
+        new StringLengthFunction().evaluate(document, nav);
     }
 }
