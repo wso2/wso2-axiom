@@ -471,7 +471,6 @@ public abstract class TextNodeImpl extends CharacterImpl implements Text, OMText
 
 
     public String getWholeText() {
-        // TODO TODO
         OMNode sibling = this;
         OMNode previousSibling;
         while ((previousSibling = sibling.getPreviousOMSibling()) instanceof OMText) {
