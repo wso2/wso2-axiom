@@ -84,15 +84,14 @@ public class OMAttributeTest extends TestCase {
 
     public void testNullAttributeType() throws Exception {
         OMFactory fac = OMAbstractFactory.getOMFactory();
-        OMNamespaceImpl soap = new OMNamespaceImpl(
-                "http://schemas.xmlsoap.org/soap/envelope/", "soap");
+        OMNamespaceImpl soap = new OMNamespaceImpl("http://schemas.xmlsoap.org/soap/envelope/", "soap");
         OMElement envelope = new OMElementImpl("Envelope", soap, fac);
         String text = null;
-        OMTextImpl textData = new OMTextImpl(envelope,text,OMNode.TEXT_NODE,new OMLinkedListImplFactory());
+        OMTextImpl textData = new OMTextImpl(envelope, text, OMNode.TEXT_NODE, new OMLinkedListImplFactory());
         envelope.addChild(textData);
 
         String nillValue = envelope.getAttributeValue(new QName("http://www.w3.org/2001/XMLSchema-instance", "nil"));
-        assertEquals("true",nillValue);
+        assertEquals("true", nillValue);
 
     }
 
