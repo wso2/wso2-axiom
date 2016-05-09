@@ -68,6 +68,9 @@ public class OMTextImpl extends OMNodeImpl implements OMText, OMConstants {
     private Object dataHandlerObject = null;
 
     private static final String EMTPY_STRING = "";
+    private static final String XSI_NAMESPACE = "http://www.w3.org/2001/XMLSchema-instance";
+    private static final String XSI_PREFIX = "xsi";
+    private static final String NIL = "nil";
 
     /**
      * Constructor OMTextImpl.
@@ -134,7 +137,15 @@ public class OMTextImpl extends OMNodeImpl implements OMText, OMConstants {
     public OMTextImpl(OMContainer parent, String text, int nodeType,
                       OMFactory factory) {
         super(parent, factory, true);
-        this.value = text == null ? EMTPY_STRING : text;
+        if (text == null) {
+            this.value = EMTPY_STRING;
+            if (parent instanceof OMElementImpl) {
+                OMNamespace xsiNameSpace = factory.createOMNamespace(XSI_NAMESPACE, XSI_PREFIX);
+                ((OMElementImpl) parent).addAttribute(NIL, "true", xsiNameSpace);
+            }
+        } else {
+            this.value = text;
+        }
         this.nodeType = nodeType;
     }
 

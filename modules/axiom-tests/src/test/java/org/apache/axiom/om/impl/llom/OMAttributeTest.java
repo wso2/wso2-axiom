@@ -27,8 +27,12 @@ import org.apache.axiom.om.OMFactory;
 import org.apache.axiom.om.OMNamespace;
 import org.apache.axiom.om.impl.builder.StAXOMBuilder;
 import org.apache.axiom.om.util.StAXUtils;
+import org.apache.axiom.om.OMNode;
+import org.apache.axiom.om.impl.OMNamespaceImpl;
+import org.apache.axiom.om.impl.llom.factory.OMLinkedListImplFactory;
 
 import javax.xml.stream.XMLStreamReader;
+import javax.xml.namespace.QName;
 import java.io.ByteArrayInputStream;
 
 public class OMAttributeTest extends TestCase {
@@ -76,6 +80,19 @@ public class OMAttributeTest extends TestCase {
         OMAttribute at = factory.createOMAttribute("id", ns, "value");
 
         assertEquals(at.getAttributeType(), "CDATA");
+    }
+
+    public void testNullAttributeType() throws Exception {
+        OMFactory fac = OMAbstractFactory.getOMFactory();
+        OMNamespaceImpl soap = new OMNamespaceImpl("http://schemas.xmlsoap.org/soap/envelope/", "soap");
+        OMElement envelope = new OMElementImpl("Envelope", soap, fac);
+        String text = null;
+        OMTextImpl textData = new OMTextImpl(envelope, text, OMNode.TEXT_NODE, new OMLinkedListImplFactory());
+        envelope.addChild(textData);
+
+        String nillValue = envelope.getAttributeValue(new QName("http://www.w3.org/2001/XMLSchema-instance", "nil"));
+        assertEquals("true", nillValue);
+
     }
 
     private String addAttributeMethod1(String xmlString) throws Exception {
