@@ -82,6 +82,9 @@ public class OMAttributeTest extends TestCase {
         assertEquals(at.getAttributeType(), "CDATA");
     }
 
+    /**
+     * Test xml attribute when the text is null
+     */
     public void testNullAttributeType() throws Exception {
         OMFactory fac = OMAbstractFactory.getOMFactory();
         OMNamespaceImpl soap = new OMNamespaceImpl("http://schemas.xmlsoap.org/soap/envelope/", "soap");
@@ -89,10 +92,8 @@ public class OMAttributeTest extends TestCase {
         String text = null;
         OMTextImpl textData = new OMTextImpl(envelope, text, OMNode.TEXT_NODE, new OMLinkedListImplFactory());
         envelope.addChild(textData);
-
         String nillValue = envelope.getAttributeValue(new QName("http://www.w3.org/2001/XMLSchema-instance", "nil"));
         assertEquals("true", nillValue);
-
     }
 
     private String addAttributeMethod1(String xmlString) throws Exception {
