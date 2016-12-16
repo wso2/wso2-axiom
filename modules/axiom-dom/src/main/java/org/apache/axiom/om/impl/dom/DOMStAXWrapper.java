@@ -51,4 +51,17 @@ public class DOMStAXWrapper extends OMStAXWrapper {
                           boolean cache) {
         super(builder, startNode, cache);
     }
+
+    /**
+     * Constructor OMStAXWrapper.
+     *
+     * @param builder
+     * @param startNode
+     * @param cache
+     * @param preserveNamespaceContext
+     */
+    public DOMStAXWrapper(OMXMLParserWrapper builder, OMContainer startNode, boolean cache,
+            boolean preserveNamespaceContext) {
+        super(builder, startNode, cache, preserveNamespaceContext);
+    }
 }

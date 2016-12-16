@@ -54,7 +54,6 @@ import org.apache.axiom.om.OMSerializable;
 import org.apache.axiom.om.OMSourcedElement;
 import org.apache.axiom.om.OMText;
 import org.apache.axiom.om.OMXMLParserWrapper;
-import org.apache.axiom.om.impl.OMNavigator;
 import org.apache.axiom.om.impl.builder.StAXBuilder;
 import org.apache.axiom.om.impl.exception.OMStreamingException;
 import org.apache.axiom.util.namespace.MapBasedNamespaceContext;
@@ -162,6 +161,13 @@ class SwitchingWrapper extends AbstractXMLStreamReader
     private OMAttribute[] attributes = new OMAttribute[16];
     private int namespaceCount = -1;
     private OMNamespace[] namespaces = new OMNamespace[16];
+
+    /**
+     * Specifies whether additional namespace declarations should be generated to preserve the
+     * namespace context. See {@link OMElement#getXMLStreamReader(boolean, boolean)} for more
+     * information about the meaning of this attribute.
+     */
+    private final boolean preserveNamespaceContext;
     
     /**
      * Method setAllowSwitching.
@@ -210,6 +216,7 @@ class SwitchingWrapper extends AbstractXMLStreamReader
         this.navigator = new OMNavigator(startNode);
         this.builder = builder;
         this.rootNode = startNode;
+        this.preserveNamespaceContext = false;
         if (rootNode instanceof OMElement && ((OMElement)rootNode).getParent() instanceof OMDocument) {
             needToThrowEndDocument = true;
         }
@@ -221,15 +228,16 @@ class SwitchingWrapper extends AbstractXMLStreamReader
         // to get the initial navigator nodes
         boolean resetCache = false;
         try {
-            if (startNode instanceof OMSourcedElement && 
-                    !cache && builder != null) {
+            if (startNode instanceof OMSourcedElement && !cache && builder != null) {
                 if (!builder.isCache()) {
                     resetCache = true;
                 }
                 builder.setCache(true); // bootstrap the navigator
-                
+
             }
-        } catch(Throwable t) {}
+        } catch (Throwable t) {
+            log.error("Error in setting cache  " + t.getMessage());
+        }
         
         currentNode = navigator.getNext();
         updateNextNode();
@@ -238,6 +246,59 @@ class SwitchingWrapper extends AbstractXMLStreamReader
         }
         switchingAllowed = !cache;
         
+        if (startNode instanceof OMDocument) {
+            try {
+                next();
+            } catch (XMLStreamException ex) {
+                throw new OMException(ex);
+            }
+        }
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param builder
+     * @param startNode
+     * @param cache
+     */
+    public SwitchingWrapper(OMXMLParserWrapper builder, OMContainer startNode,
+            boolean cache, boolean preserveNamespaceContext) {
+
+        // create a navigator
+        this.navigator = new OMNavigator(startNode);
+        this.builder = builder;
+        this.rootNode = startNode;
+        this.preserveNamespaceContext = preserveNamespaceContext;
+        if (rootNode instanceof OMElement && ((OMElement)rootNode).getParent() instanceof OMDocument) {
+            needToThrowEndDocument = true;
+        }
+
+        // initiate the next and current nodes
+        // Note - navigator is written in such a way that it first
+        // returns the starting node at the first call to it
+        // Note - for OMSourcedElements, temporarily set caching
+        // to get the initial navigator nodes
+        boolean resetCache = false;
+        try {
+            if (startNode instanceof OMSourcedElement && !cache && builder != null) {
+                if (!builder.isCache()) {
+                    resetCache = true;
+                }
+                builder.setCache(true); // bootstrap the navigator
+
+            }
+        } catch (Throwable t) {
+            log.error("Error in setting cache  " + t.getMessage());
+        }
+
+        currentNode = navigator.getNext();
+        updateNextNode();
+        if (resetCache) {
+            builder.setCache(cache);
+        }
+        switchingAllowed = !cache;
+
         if (startNode instanceof OMDocument) {
             try {
                 next();
@@ -511,24 +572,49 @@ class SwitchingWrapper extends AbstractXMLStreamReader
             }
         }
     }
-    
+
     private void loadNamespaces() {
         if (namespaceCount == -1) {
             namespaceCount = 0;
             for (Iterator it = ((OMElement)lastNode).getAllDeclaredNamespaces(); it.hasNext(); ) {
-                OMNamespace ns = (OMNamespace)it.next();
-                // Axiom internally creates an OMNamespace instance for the "xml" prefix, even
-                // if it is not declared explicitly. Filter this instance out.
-                if (!"xml".equals(ns.getPrefix())) {
-                    if (namespaceCount == namespaces.length) {
-                        OMNamespace[] newNamespaces = new OMNamespace[namespaces.length*2];
-                        System.arraycopy(namespaces, 0, newNamespaces, 0, namespaces.length);
-                        namespaces = newNamespaces;
+                addNamespace((OMNamespace)it.next());
+            }
+            if (preserveNamespaceContext && lastNode == rootNode) {
+                OMElement element = (OMElement)lastNode;
+                while (true) {
+                    OMContainer container = element.getParent();
+                    if (container instanceof OMElement) {
+                        element = (OMElement)container;
+                        decl: for (Iterator it = element.getAllDeclaredNamespaces(); it.hasNext(); ) {
+                            OMNamespace ns = (OMNamespace)it.next();
+                            String prefix = ns.getPrefix();
+                            for (int i=0; i<namespaceCount; i++) {
+                                if (namespaces[i].getPrefix().equals(prefix)) {
+                                    continue decl;
+                                }
+                            }
+                            addNamespace(ns);
+                        }
+                    } else {
+                        break;
                     }
-                    namespaces[namespaceCount] = ns;
-                    namespaceCount++;
                 }
             }
+        }
+    }
+
+    private void addNamespace(OMNamespace ns) {
+        // TODO: verify if this check is actually still necessary
+        // Axiom internally creates an OMNamespace instance for the "xml" prefix, even
+        // if it is not declared explicitly. Filter this instance out.
+        if (!"xml".equals(ns.getPrefix())) {
+            if (namespaceCount == namespaces.length) {
+                OMNamespace[] newNamespaces = new OMNamespace[namespaces.length*2];
+                System.arraycopy(namespaces, 0, newNamespaces, 0, namespaces.length);
+                namespaces = newNamespaces;
+            }
+            namespaces[namespaceCount] = ns;
+            namespaceCount++;
         }
     }
     

@@ -44,7 +44,6 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamReader;
-
 import java.util.Iterator;
 
 public abstract class ParentNode extends ChildNode implements OMContainerEx {
@@ -684,6 +683,10 @@ public abstract class ParentNode extends ChildNode implements OMContainerEx {
     }
 
     public XMLStreamReader getXMLStreamReader(boolean cache) {
+        return getXMLStreamReader(cache, false);
+    }
+
+    public XMLStreamReader getXMLStreamReader(boolean cache, boolean preserveNamespaceContext) {
         if ((builder == null) && !cache) {
             throw new UnsupportedOperationException(
                     "This element was not created in a manner to be switched");
@@ -692,6 +695,6 @@ public abstract class ParentNode extends ChildNode implements OMContainerEx {
             throw new UnsupportedOperationException(
                     "The parser is already consumed!");
         }
-        return new DOMStAXWrapper(builder, this, cache);
+        return new DOMStAXWrapper(builder, this, cache, preserveNamespaceContext);
     }
 }

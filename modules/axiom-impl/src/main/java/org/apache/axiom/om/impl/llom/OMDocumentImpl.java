@@ -325,6 +325,6 @@ public class OMDocumentImpl extends OMSerializableImpl implements OMDocument, OM
     }
 
     public XMLStreamReader getXMLStreamReader(boolean cache) {
-        return OMContainerHelper.getXMLStreamReader(this, cache);
+        return OMContainerHelper.getXMLStreamReader(this, cache, false);
     }
 }

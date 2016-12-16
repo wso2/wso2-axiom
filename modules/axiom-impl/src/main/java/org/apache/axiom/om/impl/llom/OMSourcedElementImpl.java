@@ -42,7 +42,6 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
@@ -484,16 +483,20 @@ public class OMSourcedElementImpl extends OMElementImpl implements OMSourcedElem
     }
 
     public XMLStreamReader getXMLStreamReader(boolean cache) {
+        return getXMLStreamReader(cache, false);
+    }
+
+    public XMLStreamReader getXMLStreamReader(boolean cache, boolean preserveNamespaceContext) {
         if (isDebugEnabled) {
             log.debug("getting XMLStreamReader for " + getPrintableName()
                     + " with cache=" + cache);
         }
         if (isExpanded) {
-            return super.getXMLStreamReader(cache);
+            return super.getXMLStreamReader(cache, preserveNamespaceContext);
         } else {
             if (cache && isDestructiveRead()) {
                 forceExpand();
-                return super.getXMLStreamReader();
+                return super.getXMLStreamReader(true, preserveNamespaceContext);
             }
             return getDirectReader();
         }
