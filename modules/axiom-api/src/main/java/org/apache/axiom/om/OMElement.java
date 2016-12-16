@@ -21,6 +21,7 @@ package org.apache.axiom.om;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 
 import java.io.OutputStream;
 import java.io.Writer;
@@ -492,4 +493,54 @@ public interface OMElement extends OMNode, OMContainer {
     //       warning when using the method on an OMElement.
     void serializeAndConsume(Writer writer, OMOutputFormat format)
             throws XMLStreamException;
+
+    /**
+     * Get a pull parser representation of this element, optionally preserving the namespace context
+     * determined by the ancestors of the element. This method is similar to
+     * {@link OMContainer#getXMLStreamReader(boolean)} but supports an additional feature that
+     * allows to strictly preserve the namespace context. When this feature is enabled, the
+     * {@link XMLStreamReader#getNamespaceCount()}, {@link XMLStreamReader#getNamespacePrefix(int)}
+     * and {@link XMLStreamReader#getNamespaceURI(int)} will report additional namespace
+     * declarations for the {@link XMLStreamConstants#START_ELEMENT} event corresponding to the
+     * element on which this method is called, i.e. the root element of the resulting stream. These
+     * namespace declarations correspond to namespaces declared by the ancestors of the element and
+     * that are visible in the context of the element.
+     * <p>
+     * More precisely, if this feature is enabled, then the namespace declarations reported for the
+     * first {@link XMLStreamConstants#START_ELEMENT} event in the returned stream will be the same
+     * as the declarations that would be returned by {@link #getNamespacesInScope()}, with the
+     * exception that a <tt>xmlns=""</tt> declaration present on the element will be preserved.
+     * <p>
+     * This feature is useful for code that relies on the namespace declarations reported by the
+     * {@link XMLStreamReader} to reconstruct the namespace context (instead of using the namespace
+     * context provided by {@link XMLStreamReader#getNamespaceContext()}). An example helps to
+     * illustrate how this works. Consider the following XML message:
+     * <p>
+     * <pre>
+     * &lt;soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+     *                   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     *                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+     *   &lt;soapenv:Body>
+     *     &lt;ns:echo xmlns:ns="urn:test">
+     *       &lt;in xsi:type="xsd:string">test&lt;/in>
+     *     &lt;/ns:echo>
+     *   &lt;/soapenv:Body>
+     * &lt;/soapenv:Envelope>
+     * </pre>
+     * <p>
+     * When {@link OMContainer#getXMLStreamReader(boolean)} is invoked on the {@link OMElement}
+     * corresponding to <tt>ns:echo</tt>, only the namespace declaration for the <tt>ns</tt> prefix
+     * will be reported. This may cause a problem when the caller attempts to resolve the QName
+     * value <tt>xsd:string</tt> of the <tt>xsi:type</tt> attribute. If namespace context
+     * preservation is enabled, then the {@link XMLStreamReader} returned by this method will
+     * generate additional namespace declarations for the <tt>soapenv</tt>, <tt>xsd</tt> and
+     * <tt>xsi</tt> prefixes. They are reported for the {@link XMLStreamConstants#START_ELEMENT}
+     * event representing the <tt>ns:echo</tt> element.
+     *
+     * @param cache                    indicates if caching should be enabled
+     * @param preserveNamespaceContext indicates if additional namespace declarations should be generated to preserve the
+     *                                 namespace context of the element
+     * @return an {@link XMLStreamReader} representation of this element
+     */
+    XMLStreamReader getXMLStreamReader(boolean cache, boolean preserveNamespaceContext);
 }

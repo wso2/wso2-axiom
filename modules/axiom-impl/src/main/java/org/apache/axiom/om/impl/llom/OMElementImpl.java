@@ -733,7 +733,11 @@ public class OMElementImpl extends OMNodeImpl
     }
 
     public XMLStreamReader getXMLStreamReader(boolean cache) {
-        return OMContainerHelper.getXMLStreamReader(this, cache);
+        return OMContainerHelper.getXMLStreamReader(this, cache, true);
+    }
+
+    public XMLStreamReader getXMLStreamReader(boolean cache, boolean preserveNamespaceContext) {
+        return OMContainerHelper.getXMLStreamReader(this, cache, preserveNamespaceContext);
     }
 
     /**

@@ -28,7 +28,6 @@ import javax.xml.stream.util.StreamReaderDelegate;
 import org.apache.axiom.om.OMAttachmentAccessor;
 import org.apache.axiom.om.OMContainer;
 import org.apache.axiom.om.OMDataSource;
-import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMException;
 import org.apache.axiom.om.OMXMLParserWrapper;
 import org.apache.axiom.om.OMXMLStreamReader;
@@ -59,7 +58,7 @@ public class OMStAXWrapper extends StreamReaderDelegate implements OMXMLStreamRe
      * @param startNode
      */
     public OMStAXWrapper(OMXMLParserWrapper builder, OMContainer startNode) {
-        this(builder, startNode, false);
+        this(builder, startNode, false, false);
     }
 
     /**
@@ -70,8 +69,22 @@ public class OMStAXWrapper extends StreamReaderDelegate implements OMXMLStreamRe
      * @param cache
      */
     public OMStAXWrapper(OMXMLParserWrapper builder, OMContainer startNode,
-                         boolean cache) {
+            boolean cache) {
         switchingWrapper = new SwitchingWrapper(builder, startNode, cache);
+        setParent(switchingWrapper);
+    }
+
+    /**
+     * Constructor OMStAXWrapper.
+     *
+     * @param builder
+     * @param startNode
+     * @param cache
+     * @param preserveNamespaceContext
+     */
+    public OMStAXWrapper(OMXMLParserWrapper builder, OMContainer startNode, boolean cache,
+            boolean preserveNamespaceContext) {
+        switchingWrapper = new SwitchingWrapper(builder, startNode, cache, preserveNamespaceContext);
         setParent(switchingWrapper);
     }
 

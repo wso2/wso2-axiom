@@ -38,6 +38,7 @@ public class OMTestSuiteBuilder extends AxiomTestSuiteBuilder {
             addTest(new org.apache.axiom.ts.om.document.TestGetXMLStreamReader(metaFactory, conformanceFiles[i], true));
             addTest(new org.apache.axiom.ts.om.document.TestGetXMLStreamReader(metaFactory, conformanceFiles[i], false));
         }
+        addTest(new org.apache.axiom.ts.om.element.TestGetXMLStreamReaderWithPreserveNamespaceContext(metaFactory));
         addTest(new org.apache.axiom.ts.om.document.TestIsCompleteAfterAddingIncompleteChild(metaFactory));
         addTest(new org.apache.axiom.ts.om.document.TestSerializeAndConsume(metaFactory));
         addTest(new org.apache.axiom.ts.om.document.TestSerializeAndConsumeWithIncompleteDescendant(metaFactory));
