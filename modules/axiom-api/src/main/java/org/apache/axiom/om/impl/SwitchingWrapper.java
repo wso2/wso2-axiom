@@ -68,10 +68,10 @@ import org.apache.commons.logging.LogFactory;
  */
 class SwitchingWrapper extends AbstractXMLStreamReader
     implements DataHandlerReader, CharacterDataReader, XMLStreamConstants {
-    
+
     private static final Log log = LogFactory.getLog(SwitchingWrapper.class);
     private static boolean DEBUG_ENABLED = log.isDebugEnabled();
-    
+
     /** Field navigator */
     private OMNavigator navigator;
 
@@ -80,13 +80,13 @@ class SwitchingWrapper extends AbstractXMLStreamReader
 
     /** Field parser */
     private XMLStreamReader parser;
-    
+
     /**
      * The {@link DataHandlerReader} extension of the underlying parser, or <code>null</code>
      * if the parser doesn't support this extension.
      */
     private DataHandlerReader dataHandlerReader;
-    
+
     private boolean _isClosed = false;              // Indicate if parser is closed
     private boolean _releaseParserOnClose = false;  // Defaults to legacy behavior, which is keep the reference
 
@@ -121,7 +121,7 @@ class SwitchingWrapper extends AbstractXMLStreamReader
 
     /** Field switchingAllowed */
     boolean switchingAllowed = false;
-    
+
     // namespaceURI interning
     // default is false because most XMLStreamReader implementations don't do interning
     // due to performance impacts
@@ -168,7 +168,7 @@ class SwitchingWrapper extends AbstractXMLStreamReader
      * information about the meaning of this attribute.
      */
     private final boolean preserveNamespaceContext;
-    
+
     /**
      * Method setAllowSwitching.
      *
@@ -194,14 +194,14 @@ class SwitchingWrapper extends AbstractXMLStreamReader
     public void setNamespaceURIInterning(boolean b) {
         this.namespaceURIInterning = b;
     }
-    
+
     /**
-     * @return if namespace uri interning 
+     * @return if namespace uri interning
      */
     public boolean isNamespaceURIInterning() {
         return this.namespaceURIInterning;
     }
-    
+
     /**
      * Constructor.
      *
@@ -236,16 +236,16 @@ class SwitchingWrapper extends AbstractXMLStreamReader
 
             }
         } catch (Throwable t) {
-            log.error("Error in setting cache  " + t.getMessage());
+            log.error("Error in setting cache  " + t.getMessage(), t);
         }
-        
+
         currentNode = navigator.getNext();
         updateNextNode();
         if (resetCache) {
-            builder.setCache(cache); 
+            builder.setCache(cache);
         }
         switchingAllowed = !cache;
-        
+
         if (startNode instanceof OMDocument) {
             try {
                 next();
@@ -289,7 +289,7 @@ class SwitchingWrapper extends AbstractXMLStreamReader
 
             }
         } catch (Throwable t) {
-            log.error("Error in setting cache  " + t.getMessage());
+            log.error("Error in setting cache  " + t.getMessage(), t);
         }
 
         currentNode = navigator.getNext();
@@ -354,7 +354,7 @@ class SwitchingWrapper extends AbstractXMLStreamReader
                 throw new IllegalStateException();
             }
         }
-        
+
         // By default most parsers don't intern the namespace.
         // Unfortunately the property to detect interning on the delegate parsers is hard to detect.
         // Woodstox has a proprietary property on the XMLInputFactory.
@@ -506,7 +506,7 @@ class SwitchingWrapper extends AbstractXMLStreamReader
             return getTextFromNode();
         }
     }
-    
+
     private String getTextFromNode() {
         switch (currentEvent) {
             case CHARACTERS:
@@ -617,7 +617,7 @@ class SwitchingWrapper extends AbstractXMLStreamReader
             namespaceCount++;
         }
     }
-    
+
     /**
      * @param i
      * @return Returns String.
@@ -1250,7 +1250,7 @@ class SwitchingWrapper extends AbstractXMLStreamReader
                         (parser.getLocalName().equals(((OMElement)rootNode).getLocalName()))) {
                     ++depth;
                 } else if (currentEvent == END_ELEMENT   &&
-                       (parser.getLocalName().equals(((OMElement)rootNode).getLocalName())) ) {                                      
+                       (parser.getLocalName().equals(((OMElement)rootNode).getLocalName())) ) {
                     --depth;
                     if (depth < 0) {
                         state = COMPLETED;
@@ -1591,12 +1591,12 @@ class SwitchingWrapper extends AbstractXMLStreamReader
     public OMXMLParserWrapper getBuilder() {
         return builder;
     }
-    
+
     /**
      * @return if parser is closed
      */
     public boolean isClosed() {
-        
+
         // If there is a builder, the builder owns the parser
         // and knows the isClosed status
         if (builder != null && builder instanceof StAXBuilder) {
@@ -1605,7 +1605,7 @@ class SwitchingWrapper extends AbstractXMLStreamReader
             return _isClosed;
         }
     }
-    
+
     /**
      * Indicate if the parser resource should be release when closed.
      * @param value boolean
@@ -1626,15 +1626,15 @@ class SwitchingWrapper extends AbstractXMLStreamReader
             }
             _releaseParserOnClose = value;
         }
-        
+
     }
-    
+
     /**
      * @return OMDataSource associated with the current node or Null
      */
     public OMDataSource getDataSource() {
         if (getEventType() != XMLStreamReader.START_ELEMENT ||
-                !(state == this.NAVIGABLE || 
+                !(state == this.NAVIGABLE ||
                   state == this.SWITCH_AT_NEXT)) {
             return null;
         }
@@ -1657,7 +1657,7 @@ class SwitchingWrapper extends AbstractXMLStreamReader
         }
         return ds;
     }
-    
+
     /**
      * Enable if an OMSourcedElement with an OMDataSource should be treated as a
      * leaf node.  Disable (the default) if the OMDataSource should be parsed and

@@ -88,14 +88,14 @@ class OMContainerHelper {
 
         // The om tree was built by hand and is already complete
         OMXMLStreamReader reader = null;
-        boolean done = ((OMSerializableImpl) container).done;
-        if ((builder == null) && done) {
+        boolean isDone = ((OMSerializableImpl) container).done;
+        if ((builder == null) && isDone) {
             reader = new OMStAXWrapper(null, container, false, preserveNamespaceContext);
         } else {
             if ((builder == null) && !cache) {
                 throw new UnsupportedOperationException("This element was not created in a manner to be switched");
             }
-            if (builder != null && builder.isCompleted() && !cache && !done) {
+            if (builder != null && builder.isCompleted() && !cache && !isDone) {
                 throw new UnsupportedOperationException("The parser is already consumed!");
             }
             reader = new OMStAXWrapper(builder, container, cache, preserveNamespaceContext);
