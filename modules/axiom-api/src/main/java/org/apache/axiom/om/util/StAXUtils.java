@@ -39,6 +39,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
+import java.lang.reflect.Constructor;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.security.PrivilegedActionException;
@@ -115,6 +116,10 @@ public class StAXUtils {
     private static final Map/*<StAXWriterConfiguration,Map<ClassLoader,XMLInputFactory>>*/ outputFactoryPerCLMap
             = Collections.synchronizedMap(new WeakHashMap());
     
+    // These are used for replacing invalid characters when present in XMLs using woodstox output factory properties
+    private static final String P_OUTPUT_INVALID_CHAR_HANDLER = "com.ctc.wstx.outputInvalidCharHandler";
+    private static final String INVALID_CHAR_REPLACING_HANDLER_CLASS = "com.ctc.wstx.api.InvalidCharHandler$ReplacingHandler";
+
     /**
      * Get a cached {@link XMLInputFactory} instance using the default
      * configuration and cache policy (i.e. one instance per class loader).
@@ -637,7 +642,12 @@ public class StAXUtils {
                     if (props != null) {
                         for (Iterator it = props.entrySet().iterator(); it.hasNext(); ) {
                             Map.Entry entry = (Map.Entry)it.next();
-                            factory.setProperty((String)entry.getKey(), entry.getValue());
+                            String key = (String)entry.getKey();
+                            if ("com.ctc.wstx.outputInvalidCharHandler.char".equals(key)) {
+                                setInvalidCharacterHandler(factory, ((String)entry.getValue()).charAt(0));
+                            } else {
+                                factory.setProperty((String) entry.getKey(), entry.getValue());
+                            }
                         }
                     }
                     StAXDialect dialect = StAXDialectDetector.getDialect(factory.getClass());
@@ -655,6 +665,25 @@ public class StAXUtils {
         });
     }
     
+    private static void setInvalidCharacterHandler(XMLOutputFactory factory, char replaceChar) {
+        try {
+            Class invalidCharHandlerClass;
+            if (factory.getClass().getClassLoader() != null) {
+                invalidCharHandlerClass = factory.getClass().getClassLoader()
+                        .loadClass(INVALID_CHAR_REPLACING_HANDLER_CLASS);
+            } else {
+                invalidCharHandlerClass = ClassLoader.getSystemClassLoader()
+                        .loadClass(INVALID_CHAR_REPLACING_HANDLER_CLASS);
+            }
+            Constructor newInstByCharConstructor = invalidCharHandlerClass.getConstructor(Character.TYPE);
+            Object invalidCharHandlerInstance = newInstByCharConstructor.newInstance(replaceChar);
+            factory.setProperty(P_OUTPUT_INVALID_CHAR_HANDLER, invalidCharHandlerInstance);
+        } catch (ReflectiveOperationException e) {
+            //log and continue since this should not break anything
+            log.error("Error while setting invalid character handler", e);
+        }
+    }
+
     /**
      * @return XMLOutputFactory for the current classloader
      */
