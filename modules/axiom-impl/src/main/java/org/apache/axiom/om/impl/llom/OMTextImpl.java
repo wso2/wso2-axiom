@@ -19,6 +19,7 @@
 
 package org.apache.axiom.om.impl.llom;
 
+import com.ctc.wstx.exc.WstxIOException;
 import org.apache.axiom.ext.stax.datahandler.DataHandlerProvider;
 import org.apache.axiom.om.OMConstants;
 import org.apache.axiom.om.OMContainer;
@@ -40,6 +41,8 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class OMTextImpl extends OMNodeImpl implements OMText, OMConstants {
     /** Field nameSpace used when serializing Binary stuff as MTOM optimized. */
@@ -73,6 +76,18 @@ public class OMTextImpl extends OMNodeImpl implements OMText, OMConstants {
     private static final String NIL = "nil";
 
     /**
+     * Field illegalCharSet contains characters illegal in the XML message and their encoded
+     * values
+     */
+    private static HashMap<String, String> illegalCharSet;
+
+    static {
+        illegalCharSet = new HashMap<>();
+        illegalCharSet.put("\f", "\\\\f");
+        illegalCharSet.put("\b", "\\\\b");
+    }
+
+    /**
      * Constructor OMTextImpl.
      *
      * @param s
@@ -99,7 +114,7 @@ public class OMTextImpl extends OMNodeImpl implements OMText, OMConstants {
     public OMTextImpl(OMContainer parent, String text, OMFactory factory) {
         this(parent, text, TEXT_NODE, factory);
     }
-    
+
     /**
      * Construct OMTextImpl that is a copy of the source OMTextImpl
      * @param parent
@@ -111,25 +126,25 @@ public class OMTextImpl extends OMNodeImpl implements OMText, OMConstants {
         // Copy the value of the text
         this.value = source.value;
         this.nodeType = source.nodeType;
-        
+
         // Clone the charArray (if it exists)
         if (source.charArray != null) {
             this.charArray = new char[source.charArray.length];
             System.arraycopy(source.charArray, 0, this.charArray, 0, source.charArray.length);
         }
-        
+
         // Turn off calcNS...the namespace will need to be recalculated
         // in the new tree's context.
         this.calcNS = false;
         this.textNS = null;
-        
+
         // Copy the optimized related settings.
         this.optimize = source.optimize;
         this.mimeType = source.mimeType;
         this.isBinary = source.isBinary;
-        
+
         // TODO
-        // Do we need a deep copy of the data-handler 
+        // Do we need a deep copy of the data-handler
         this.contentID = source.contentID;
         this.dataHandlerObject = source.dataHandlerObject;
     }
@@ -216,7 +231,7 @@ public class OMTextImpl extends OMNodeImpl implements OMText, OMConstants {
 
     /**
      * Constructor.
-     * 
+     *
      * @param dataHandlerProvider
      * @param optimize
      * @param factory
@@ -258,7 +273,15 @@ public class OMTextImpl extends OMNodeImpl implements OMText, OMConstants {
     private void writeOutput(XMLStreamWriter writer) throws XMLStreamException {
         int type = getType();
         if (type == TEXT_NODE || type == SPACE_NODE) {
-            writer.writeCharacters(this.getText());
+            /*
+             * if an WstxIOException exception occurs due to a illegal character in the message
+             * then illegal characters are encoded and retry the operation in the catch block
+             */
+            try {
+                writer.writeCharacters(this.getText());
+            } catch (WstxIOException e) {
+                writer.writeCharacters(encodeJSONReserved(this.getText()));
+            }
         } else if (type == CDATA_SECTION_NODE) {
             writer.writeCData(this.getText());
         } else if (type == ENTITY_REFERENCE_NODE) {
@@ -442,7 +465,7 @@ public class OMTextImpl extends OMNodeImpl implements OMText, OMConstants {
     public void discard() throws OMException {
         if (done) {
             this.detach();
-        } 
+        }
     }
 
     /* (non-Javadoc)
@@ -456,9 +479,19 @@ public class OMTextImpl extends OMNodeImpl implements OMText, OMConstants {
             this.getDataHandler();
         }
     }
-    
+
     public void setContentID(String cid) {
         this.contentID = cid;
     }
 
+    /*
+     * encodes the specified illegal characters in the message
+     */
+    private String encodeJSONReserved(String message) {
+        HashMap<String, String> charSet = illegalCharSet;
+        for (Map.Entry<String, String> entry : charSet.entrySet()) {
+            message = message.replaceAll(entry.getKey(), entry.getValue());
+        }
+        return message;
+    }
 }
