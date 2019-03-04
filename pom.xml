@@ -39,97 +39,6 @@
         <tag>HEAD</tag>
     </scm>
 
-    <modules>
-        <module>modules/axiom-parent</module>
-        <module>modules/axiom-testutils</module>
-        <module>modules/axiom-jaxen-testsuite</module>
-        <module>modules/axiom-api</module>
-        <module>modules/axiom-testsuite</module>
-        <module>modules/axiom-impl</module>
-        <module>modules/axiom-dom</module>
-        <module>modules/axiom-c14n</module>
-        <module>modules/axiom-tests</module>
-        <!--<module>modules/axiom-osgi</module>-->
-        <module>modules/axiom-integration</module>
-        <module>orbit</module>
-    </modules>
-
-    <pluginRepositories>
-
-        <pluginRepository>
-            <id>wso2.releases</id>
-            <name>WSO2 internal Repository</name>
-            <url>http://maven.wso2.org/nexus/content/repositories/releases/</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-                <checksumPolicy>ignore</checksumPolicy>
-            </releases>
-        </pluginRepository>
-
-        <pluginRepository>
-            <id>wso2.snapshots</id>
-            <name>Apache Snapshot Repository</name>
-            <url>http://maven.wso2.org/nexus/content/repositories/snapshots/</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-            </snapshots>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </pluginRepository>
-
-        <pluginRepository>
-            <id>wso2-nexus</id>
-            <name>WSO2 internal Repository</name>
-            <url>http://maven.wso2.org/nexus/content/groups/wso2-public/</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-                <checksumPolicy>ignore</checksumPolicy>
-            </releases>
-        </pluginRepository>
-
-    </pluginRepositories>
-
-    <repositories>
-        <repository>
-            <id>wso2-nexus</id>
-            <name>WSO2 internal Repository</name>
-            <url>http://maven.wso2.org/nexus/content/groups/wso2-public/</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-                <checksumPolicy>ignore</checksumPolicy>
-            </releases>
-        </repository>
-
-        <repository>
-            <id>wso2.releases</id>
-            <name>WSO2 internal Repository</name>
-            <url>http://maven.wso2.org/nexus/content/repositories/releases/</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-                <checksumPolicy>ignore</checksumPolicy>
-            </releases>
-        </repository>
-
-        <repository>
-            <id>wso2.snapshots</id>
-            <name>Apache Snapshot Repository</name>
-            <url>http://maven.wso2.org/nexus/content/repositories/snapshots/</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-            </snapshots>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </repository>
-    </repositories>
-
   <!--  <issueManagement>
         <system>JIRA</system>
         <url>http://issues.apache.org/jira/browse/AXIOM</url>
@@ -367,8 +276,8 @@
                         </goals>
                         <configuration>
                             <source>
-                                import java.util.Date
-                                import java.text.MessageFormat
+                                import java.util.Date 
+                                import java.text.MessageFormat 
                                 project.properties['build_date'] = MessageFormat.format("{0,date,MMMMM dd, yyyy}", new Date())
                             </source>
                         </configuration>
@@ -379,9 +288,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.5.1</version>
-                <configuration>
-                    <preparationGoals>clean install</preparationGoals>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -464,7 +370,7 @@
                             <name>scr.property</name>
                             <placement>X</placement>
                         </tag>
-                    </tags>
+                    </tags>                    
                     <breakiterator>true</breakiterator>
                 </configuration>
             </plugin>-->
@@ -667,4 +573,18 @@
             <url>http://maven.wso2.org/nexus/content/repositories/snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
+    <modules>
+        <module>modules/axiom-parent</module>
+        <module>modules/axiom-testutils</module>
+        <module>modules/axiom-jaxen-testsuite</module>
+        <module>modules/axiom-api</module>
+        <module>modules/axiom-testsuite</module>
+        <module>modules/axiom-impl</module>
+        <module>modules/axiom-dom</module>
+        <module>modules/axiom-c14n</module>
+        <module>modules/axiom-tests</module>
+        <!--<module>modules/axiom-osgi</module>-->
+        <module>modules/axiom-integration</module>
+        <module>orbit</module>
+    </modules>
 </project>
