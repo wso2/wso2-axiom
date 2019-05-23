@@ -34,7 +34,6 @@ import org.apache.axiom.om.impl.builder.XOPBuilder;
 import org.apache.axiom.util.UIDGenerator;
 import org.apache.axiom.util.base64.Base64Utils;
 import org.apache.axiom.util.stax.XMLStreamWriterUtils;
-import org.apache.commons.text.StringEscapeUtils;
 
 import javax.activation.DataHandler;
 import javax.xml.namespace.QName;
@@ -42,6 +41,8 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class OMTextImpl extends OMNodeImpl implements OMText, OMConstants {
     /** Field nameSpace used when serializing Binary stuff as MTOM optimized. */
@@ -73,6 +74,18 @@ public class OMTextImpl extends OMNodeImpl implements OMText, OMConstants {
     private static final String XSI_NAMESPACE = "http://www.w3.org/2001/XMLSchema-instance";
     private static final String XSI_PREFIX = "xsi";
     private static final String NIL = "nil";
+
+    /**
+     * Field illegalCharSet contains characters illegal in the XML message and their encoded
+     * values
+     */
+    private static HashMap<String, String> illegalCharSet;
+
+    static {
+        illegalCharSet = new HashMap<>();
+        illegalCharSet.put("\f", "\\\\f");
+        illegalCharSet.put("\b", "\\\\b");
+    }
 
     /**
      * Constructor OMTextImpl.
@@ -475,6 +488,10 @@ public class OMTextImpl extends OMNodeImpl implements OMText, OMConstants {
      * encodes the specified illegal characters in the message
      */
     private String encodeJSONReserved(String message) {
-        return StringEscapeUtils.escapeJava(message);
+        HashMap<String, String> charSet = illegalCharSet;
+        for (Map.Entry<String, String> entry : charSet.entrySet()) {
+            message = message.replaceAll(entry.getKey(), entry.getValue());
+        }
+        return message;
     }
 }

@@ -380,11 +380,6 @@
                 <version>1.6</version>
             </dependency>
             <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-text</artifactId>
-                <version>${commons-text.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>commons-logging</groupId>
                 <artifactId>commons-logging</artifactId>
                 <version>1.1.1</version>
@@ -472,18 +467,6 @@
             </plugin>
         </plugins>
     </reporting>
-    <repositories>
-        <repository>
-            <id>wso2-nexus</id>
-            <name>WSO2 internal Repository</name>
-            <url>http://maven.wso2.org/nexus/content/groups/wso2-public/</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-                <checksumPolicy>ignore</checksumPolicy>
-            </releases>
-        </repository>
-    </repositories>
     <distributionManagement>
         <!--  <repository>
                 <id>wso2-maven2-repository</id>
@@ -511,7 +494,6 @@
         <stax.impl.artifact>wstx-asl</stax.impl.artifact>
         <stax.impl.version>3.2.9</stax.impl.version>
         <failIfNoTests>false</failIfNoTests>
-        <commons-text.version>1.6</commons-text.version>
         <!--
         <stax.impl.groupid>com.sun.xml.stream</stax.impl.groupid>
         <stax.impl.artifact>sjsxp</stax.impl.artifact>
