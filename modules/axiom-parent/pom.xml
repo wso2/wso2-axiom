@@ -27,7 +27,7 @@
     <groupId>org.apache.ws.commons.axiom</groupId>
     <artifactId>axiom-parent</artifactId>
     <name>Axiom Parent POM</name>
-    <version>1.2.11-wso3v14-SNAPSHOT</version>
+    <version>1.2.11-wso3v14</version>
     <packaging>pom</packaging>
     <description>Axiom Parent POM</description>
     <url>http://ws.apache.org/axiom/</url>
@@ -531,4 +531,8 @@
             <layout>default</layout>
         </pluginRepository>
     </pluginRepositories>
+
+  <scm>
+    <tag>v1.2.11-wso3v14</tag>
+  </scm>
 </project>
