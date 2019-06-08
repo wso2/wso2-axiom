@@ -32,8 +32,8 @@
     <dependencies>
     
         <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
             <version>${javax.mail.version}</version>
             <optional>true</optional>
         </dependency>
@@ -92,7 +92,7 @@
         <dependency>
             <groupId>org.codehaus.woodstox</groupId>
             <artifactId>stax2-api</artifactId>
-            <version>3.1.1</version>
+            <version>3.1.4</version>
          </dependency>
         <dependency>
             <groupId>org.apache.ws.commons.axiom</groupId>
@@ -187,8 +187,8 @@
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Name>${project.artifactId}</Bundle-Name>
                         <Export-Package>
-			    org.apache.axiom.*; version="${exp.pkg.version.axiom}";-split-package:=merge-first,
-			    org.jaxen.*; version=${jaxen.version},
+                            org.apache.axiom.*; version="${exp.pkg.version.axiom}";-split-package:=merge-first,
+                            org.jaxen.*; version=${jaxen.version},
                             javax.mail;version=${javax.mail.version};-split-package:=merge-first,
                             javax.mail.event;version=${javax.mail.version};-split-package:=merge-first,
                             javax.mail.internet;version=${javax.mail.version};-split-package:=merge-first,
@@ -232,10 +232,10 @@
                             com.sun.mail.util
                         </Private-Package>
                         <Include-Resource>
-                            @mail-${javax.mail.version}.jar!/META-INF/javamail.charset.map,
-                            @mail-${javax.mail.version}.jar!/META-INF/javamail.default.address.map,
-                            @mail-${javax.mail.version}.jar!/META-INF/javamail.default.providers,
-                            @mail-${javax.mail.version}.jar!/META-INF/mailcap,
+                            @javax.mail-${javax.mail.version}.jar!/META-INF/javamail.charset.map,
+                            @javax.mail-${javax.mail.version}.jar!/META-INF/javamail.default.address.map,
+                            @javax.mail-${javax.mail.version}.jar!/META-INF/javamail.default.providers,
+                            @javax.mail-${javax.mail.version}.jar!/META-INF/mailcap,
                         </Include-Resource>
                         <Embed-Dependency>geronimo-stax-api_1.0_spec;stax2-api;woodstox-core-asl;inline=true</Embed-Dependency>
                     </instructions>
@@ -321,8 +321,8 @@
     <properties>
         <axiom.version>1.2.11-wso2v15-SNAPSHOT</axiom.version>
         <exp.pkg.version.axiom>${axiom.version}</exp.pkg.version.axiom>
-        <jaxen.version>1.1.1</jaxen.version>
-        <javax.mail.version>1.4.1</javax.mail.version>
+        <jaxen.version>1.2.0</jaxen.version>
+        <javax.mail.version>1.6.2</javax.mail.version>
         <dom4j.version>1.6.1</dom4j.version>
         <maven.bundle.plugin.version>1.4.0</maven.bundle.plugin.version>
     </properties>
