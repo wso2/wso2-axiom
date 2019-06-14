@@ -115,6 +115,11 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>xmlbeans-maven-plugin</artifactId>
                 <version>2.3.1</version>
+                <!-- Need to set javaSource parameter to plugin to work properly in jdk 11.Otherwise the plugin takes
+                source as jdk 1.4 which will cause build failures -->
+                <configuration>
+                    <javaSource>1.8</javaSource>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
