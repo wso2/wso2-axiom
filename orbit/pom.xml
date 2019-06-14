@@ -223,6 +223,7 @@
                             javax.xml.validation,
                             javax.xml.xpath,
                             javax.xml,
+                            javax.activation,
                             *;resolution:=optional
                         </Import-Package>
                         <Private-Package>
