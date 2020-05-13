@@ -20,6 +20,8 @@ package org.apache.axiom.mime.impl.axiom;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.activation.DataHandler;
 
@@ -80,9 +82,30 @@ class MultipartWriterImpl implements MultipartWriter {
             out.write(buffer, 0, count);
         }
     }
-    
-    public OutputStream writePart(String contentType, String contentTransferEncoding,
-            String contentID) throws IOException {
+
+    public OutputStream writePart(String contentType, String contentTransferEncoding, String contentID,
+                                  List<String> extraHeaders) throws IOException {
+
+        OutputStream transferEncoder = write(contentType, contentTransferEncoding, contentID);
+        for (String header : extraHeaders) {
+            writeAscii("\r\n");
+            writeAscii(header);
+        }
+        writeAscii("\r\n\r\n");
+        return new PartOutputStream(transferEncoder);
+    }
+
+    public OutputStream writePart(String contentType, String contentTransferEncoding, String contentID)
+            throws IOException {
+
+        OutputStream transferEncoder = write(contentType, contentTransferEncoding, contentID);
+        writeAscii("\r\n\r\n");
+        return new PartOutputStream(transferEncoder);
+    }
+
+    private OutputStream write(String contentType, String contentTransferEncoding, String contentID)
+            throws IOException {
+
         OutputStream transferEncoder;
         if (contentTransferEncoding.equals("8bit") || contentTransferEncoding.equals("binary")) {
             transferEncoder = out;
@@ -106,13 +129,20 @@ class MultipartWriterImpl implements MultipartWriter {
             writeAscii(contentID);
             out.write('>');
         }
-        writeAscii("\r\n\r\n");
-        return new PartOutputStream(transferEncoder);
+        return transferEncoder;
     }
     
     public void writePart(DataHandler dataHandler, String contentTransferEncoding, String contentID)
             throws IOException {
         OutputStream partOutputStream = writePart(dataHandler.getContentType(), contentTransferEncoding, contentID);
+        dataHandler.writeTo(partOutputStream);
+        partOutputStream.close();
+    }
+
+    public void writePart(DataHandler dataHandler, String contentTransferEncoding, String contentID,
+                          List<String> extraHeaders) throws IOException {
+        OutputStream partOutputStream = writePart(dataHandler.getContentType(), contentTransferEncoding, contentID,
+                                                  extraHeaders);
         dataHandler.writeTo(partOutputStream);
         partOutputStream.close();
     }

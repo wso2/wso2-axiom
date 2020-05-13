@@ -22,6 +22,7 @@ package org.apache.axiom.mime.impl.javamail;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import javax.activation.DataHandler;
 import javax.mail.MessagingException;
@@ -113,6 +114,11 @@ class MultipartWriterImpl implements MultipartWriter {
             throw ex2;
         }
         out.write(CR_LF);
+    }
+
+    public void writePart(DataHandler dataHandler, String contentTransferEncoding, String contentID,
+                          List<String> extraHeaders) throws IOException {
+        // do nothing
     }
 
     public void complete() throws IOException {

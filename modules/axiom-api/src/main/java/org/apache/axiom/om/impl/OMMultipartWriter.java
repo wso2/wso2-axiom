@@ -21,6 +21,7 @@ package org.apache.axiom.om.impl;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 
 import javax.activation.DataHandler;
 
@@ -134,6 +135,27 @@ public class OMMultipartWriter {
             contentTransferEncoding = getContentTransferEncoding(dataHandler.getContentType());
         }
         writer.writePart(dataHandler, contentTransferEncoding, contentID);
+    }
+
+    /**
+     * Write a MIME part. This method delegates to
+     * {@link MultipartWriter#writePart(DataHandler, String, String)}, but computes the appropriate
+     * content transfer encoding from the {@link OMOutputFormat}.
+     *
+     * @param dataHandler  the content of the MIME part to write
+     * @param contentID    the content ID of the MIME part
+     * @param extraHeaders extraheaders for MIME part
+     * @throws IOException if an I/O error occurs when writing the part to the underlying stream
+     */
+    public void writePart(DataHandler dataHandler, String contentID, List<String> extraHeaders) throws IOException {
+        String contentTransferEncoding = null;
+        if (dataHandler instanceof ConfigurableDataHandler) {
+            contentTransferEncoding = ((ConfigurableDataHandler) dataHandler).getTransferEncoding();
+        }
+        if (contentTransferEncoding == null) {
+            contentTransferEncoding = getContentTransferEncoding(dataHandler.getContentType());
+        }
+        writer.writePart(dataHandler, contentTransferEncoding, contentID, extraHeaders);
     }
 
     /**
