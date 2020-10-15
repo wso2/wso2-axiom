@@ -46,6 +46,7 @@ public class OMSerializerUtil {
     
     private static final String XSI_URI = "http://www.w3.org/2001/XMLSchema-instance";
     private static final String XSI_LOCAL_NAME = "type";
+    private static final String SKIP_AXIS2_NS_PREFIX = "skipAxis2NsPrefix";
     /**
      * Method serializeEndpart.
      *
@@ -616,8 +617,12 @@ public class OMSerializerUtil {
         while (writer.getNamespaceContext().getNamespaceURI(prefix) != null) {
             prefix = getNextNSPrefix();
         }
-
-        return prefix;
+        String propVal = System.getProperty(SKIP_AXIS2_NS_PREFIX);
+        if (propVal != null && propVal.equals("true")) {
+            return "";
+        } else {
+            return prefix;
+        }
     }
 
     /**
