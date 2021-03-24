@@ -184,8 +184,8 @@ public class PartFactory {
             log.debug("initHeaders");
         }
         boolean done = false;
-        
-        
+        String previousKey = null;
+
         final int BUF_SIZE = 1024;
         byte[] headerBytes = new byte[BUF_SIZE];
         
@@ -235,7 +235,7 @@ public class PartFactory {
                         
                         if (ch == 10) {
                             // Blank line indicates we are done.
-                            readHeader(sb, headers);
+                            previousKey = readHeader(sb, headers, previousKey);
                             sb.delete(0, sb.length()); // Clear the buffer for reuse
                             done = true;
                         } 
@@ -245,7 +245,7 @@ public class PartFactory {
                         String check = sb.toString().trim();
                         if (!check.endsWith(";")) {
                             // now parse and add the header String
-                            readHeader(sb, headers);
+                            previousKey = readHeader(sb, headers, previousKey);
                             sb.delete(0, sb.length()); // Clear the buffer for reuse
                         }
                         sb.append((char) ch);
@@ -277,8 +277,18 @@ public class PartFactory {
      * @param header StringBuffer
      * @param headers Map
      */
-    private static void readHeader(StringBuffer header, Map headers) {
+    private static String readHeader(StringBuffer header, Map headers, String previousKey) {
         int delimiter = header.indexOf(":");
+
+        if (delimiter == -1 && previousKey != null) {
+            Header headerObject = (Header)(headers.get(previousKey));
+            String previousValue = headerObject.getValue();
+            StringBuffer sb = new StringBuffer(previousValue);
+            sb.append(header);
+            Header headerObj = new Header(headerObject.getName(), sb.toString());
+            headers.put(previousKey, headerObj);
+            return previousKey;
+        }
         String name = header.substring(0, delimiter).trim();
         String value = header.substring(delimiter + 1, header.length()).trim();
         
@@ -290,6 +300,8 @@ public class PartFactory {
         // Use the lower case name as the key
         String key = name.toLowerCase();
         headers.put(key, headerObj);
+
+        return key;
     }
     
     /**
