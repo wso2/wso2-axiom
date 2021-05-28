@@ -31,6 +31,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.activation.DataHandler;
+import javax.mail.Header;
 import javax.mail.MessagingException;
 import javax.mail.internet.ContentType;
 import javax.mail.internet.ParseException;
@@ -39,6 +40,9 @@ import java.io.InputStream;
 import java.io.PushbackInputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
@@ -74,6 +78,11 @@ public class Attachments implements OMAttachmentAccessor {
      * This ordered Map is keyed using the content-ID's.
      */
     TreeMap attachmentsMap;
+
+    /**
+     * <code>headersMap</code> stores the Mime headers.
+     */
+    private Map headersMap = new HashMap();
     
     /**
      * <code>cids</code> stores the content ids in the order that the attachments
@@ -118,6 +127,8 @@ public class Attachments implements OMAttachmentAccessor {
     private LifecycleManager manager;
     
     protected static Log log = LogFactory.getLog(Attachments.class);
+
+    List<String> defaultAttachmentHeaders = Arrays.asList("content-type", "content-id");
    
     public LifecycleManager getLifecycleManager() {
         if(manager == null) {
@@ -372,6 +383,25 @@ public class Attachments implements OMAttachmentAccessor {
     }
 
     /**
+     * Programatically adding headers of an SOAP with Attachments(SwA) Attachment.
+     *
+     * @param nextPart
+     * @param partContentID
+     */
+    private void extractHeaders(Part nextPart, String partContentID) throws MessagingException {
+        Enumeration allHeaders = nextPart.getAllHeaders();
+        List currentHeaders = new ArrayList();
+        while (allHeaders.hasMoreElements()) {
+            Object nextElementObject = allHeaders.nextElement();
+            if (nextElementObject instanceof Header && ((Header) nextElementObject).getName() != null &&
+                    !defaultAttachmentHeaders.contains(((Header) nextElementObject).getName().toLowerCase())) {
+                currentHeaders.add(nextElementObject);
+            }
+        }
+        headersMap.put(partContentID, currentHeaders);
+    }
+
+    /**
      * Removes the DataHandler corresponding to the given contenID. If it is not present, then
      * trying to find it calling the getNextPart() till the required part is found.
      *
@@ -559,6 +589,25 @@ public class Attachments implements OMAttachmentAccessor {
     public List getContentIDList() {
         return cids;
     }
+
+    /**
+     * Get the headers of the already loaded MIME parts in the message.
+     *
+     * @return Map of MIME headers of the message
+     */
+    public Map getHeaders(){
+        fetchAllParts();
+        return Collections.unmodifiableMap(headersMap);
+    }
+
+    /**
+     * Set the headers of the MIME parts in the message.
+     *
+     * @param headers Map of MIME headers
+     */
+    public void setHeaders(Map headers) {
+        this.headersMap = new HashMap(headers);
+    }
     
     /**
      * If the Attachments is backed by an InputStream, then this
@@ -642,6 +691,7 @@ public class Attachments implements OMAttachmentAccessor {
                             dataHandler = new DataHandler(new ByteArrayDataSource(new byte[]{}));
                         }
                         addDataHandler(id, dataHandler);
+                        extractHeaders(nextPart, partContentID);
                         return dataHandler;
                     }
                     if (partContentID == null) {
@@ -669,6 +719,7 @@ public class Attachments implements OMAttachmentAccessor {
                         dataHandler = new DataHandler(new ByteArrayDataSource(new byte[]{}));
                     }
                     addDataHandler(partContentID, dataHandler);
+                    extractHeaders(nextPart, partContentID);
                     return dataHandler;
                 } catch (MessagingException e) {
                     throw new OMException("Error reading Content-ID from the Part."
