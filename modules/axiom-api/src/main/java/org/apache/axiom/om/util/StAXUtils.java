@@ -450,7 +450,7 @@ public class StAXUtils {
      * @return
      */
     // This has package access since it is used from within anonymous inner classes
-    static Map loadFactoryProperties(String name) {
+    public static Map loadFactoryProperties(String name) {
         ClassLoader cl = getContextClassLoader();
         InputStream in = cl.getResourceAsStream(name);
         if (in == null) {
