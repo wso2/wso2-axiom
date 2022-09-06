@@ -70,6 +70,7 @@
                 <configuration>
                     <!--This parameter disables doclint-->
                     <doclint>none</doclint>
+                    <source>8</source>
                 </configuration>
                 <executions>
                     <execution>
