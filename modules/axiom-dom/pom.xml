@@ -150,6 +150,7 @@
                     <!--This parameter disables doclint-->
                     <doclint>none</doclint>
                     <source>8</source>
+                    <detectJavaApiLink>false</detectJavaApiLink>
                 </configuration>
                 <executions>
                     <execution>
