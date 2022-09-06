@@ -43,5 +43,29 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
-    
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>3.3.2</version>
+                    <configuration>
+                        <!--This parameter disables doclint-->
+                        <doclint>none</doclint>
+                        <source>8</source>
+                        <detectJavaApiLink>false</detectJavaApiLink>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>

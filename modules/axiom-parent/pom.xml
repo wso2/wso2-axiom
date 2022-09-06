@@ -290,6 +290,8 @@
                             <configuration>
                                 <!--This parameter disables doclint-->
                                 <additionalparam>-Xdoclint:none</additionalparam>
+                                <source>8</source>
+                                <detectJavaApiLink>false</detectJavaApiLink>
                             </configuration>
                         </execution>
                     </executions>
