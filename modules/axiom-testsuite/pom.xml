@@ -69,10 +69,7 @@
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>3.4.1</version>
                     <configuration>
-                        <!--This parameter disables doclint-->
-                        <doclint>none</doclint>
-                        <source>8</source>
-                        <detectJavaApiLink>false</detectJavaApiLink>
+                        <source>1.8</source>
                     </configuration>
                     <executions>
                         <execution>
@@ -80,6 +77,10 @@
                             <goals>
                                 <goal>jar</goal>
                             </goals>
+                            <configuration>
+                                <!--This parameter disables doclint-->
+                                <doclint>none</doclint>
+                            </configuration>
                         </execution>
                     </executions>
                 </plugin>
