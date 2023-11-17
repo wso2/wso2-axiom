@@ -197,7 +197,6 @@
                             com.sun.mail.imap;version=${javax.mail.version},
                             com.sun.mail.pop3;version=${javax.mail.version},
                             com.sun.mail.smtp;version=${javax.mail.version},
-                            org.dom4j.*; version=${dom4j.version},
                         </Export-Package>
                         <Import-Package>
                             !org.apache.axiom.*; version="${exp.pkg.version.axiom}",
