@@ -170,7 +170,7 @@ public class DocumentImpl extends ParentNode implements Document, OMDocument {
         String localName = DOMUtil.getLocalName(qualifiedName);
         String prefix = DOMUtil.getPrefix(qualifiedName);
 
-        if (!OMConstants.XMLNS_NS_PREFIX.equals(localName)) {
+        if (!OMConstants.XMLNS_NS_PREFIX.equals(localName) && prefix != null) {
             this.checkQName(prefix, localName);
         } else {
             return this.createAttribute(localName);
