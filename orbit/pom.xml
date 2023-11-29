@@ -149,7 +149,7 @@
         </dependency>
         
         <dependency>
-            <groupId>dom4j</groupId>
+            <groupId>org.dom4j</groupId>
             <artifactId>dom4j</artifactId>
             <version>${dom4j.version}</version>
             <optional>true</optional>
@@ -323,7 +323,7 @@
         <exp.pkg.version.axiom>1.2.11.wso2v15</exp.pkg.version.axiom>
         <jaxen.version>1.2.0</jaxen.version>
         <javax.mail.version>1.6.2</javax.mail.version>
-        <dom4j.version>1.6.1</dom4j.version>
+        <dom4j.version>2.1.4</dom4j.version>
         <maven.bundle.plugin.version>1.4.0</maven.bundle.plugin.version>
     </properties>
 
