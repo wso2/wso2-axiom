@@ -26,6 +26,7 @@ import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import java.io.File;
 import java.io.InputStream;
+import java.nio.file.Files;
 
 
 /** Test the PartOnFile class */
@@ -114,15 +115,7 @@ public class PartOnFileTest extends AbstractTestCase {
     }
 
     private void createTemporaryDirectory() throws Exception {
-        temp = File.createTempFile("partOnFileTest", ".tmp");
-
-        if (!temp.delete()) {
-            fail("Cannot delete from temporary directory. File: " + temp.toURL());
-        }
-
-        if (!temp.mkdir()) {
-            fail("Cannot create a temporary location for part files");
-        }
+        temp = Files.createTempDirectory("partOnFileTest" + ".tmp").toFile();
     }
 
     private void deleteTemporaryDirectory() throws Exception {
