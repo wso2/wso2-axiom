@@ -34,6 +34,8 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -451,8 +453,13 @@ public class StAXUtils {
      */
     // This has package access since it is used from within anonymous inner classes
     public static Map loadFactoryProperties(String name) {
-        ClassLoader cl = getContextClassLoader();
-        InputStream in = cl.getResourceAsStream(name);
+
+        InputStream in = null;
+        try {
+            in = new FileInputStream(name);
+        } catch (FileNotFoundException e) {
+            return null;
+        }
         if (in == null) {
             return null;
         } else {
