@@ -222,7 +222,7 @@
                             javax.xml.validation,
                             javax.xml.xpath,
                             javax.xml,
-                            javax.activation,
+                            javax.activation;version="[0.0.0, 1.0.0)",
                             *;resolution:=optional
                         </Import-Package>
                         <Private-Package>
@@ -324,7 +324,7 @@
         <jaxen.version>1.2.0</jaxen.version>
         <javax.mail.version>1.6.2</javax.mail.version>
         <dom4j.version>2.1.4</dom4j.version>
-        <maven.bundle.plugin.version>1.4.0</maven.bundle.plugin.version>
+        <maven.bundle.plugin.version>3.2.0</maven.bundle.plugin.version>
     </properties>
 
 </project>
