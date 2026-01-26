@@ -38,6 +38,19 @@ public class AXIOMUtil {
     public static OMElement stringToOM(String xmlFragment) throws XMLStreamException {
         return stringToOM(OMAbstractFactory.getOMFactory(), xmlFragment);
     }
+
+    /**
+     * Create an OMElement from an XML fragment given as a string with secure processing option.
+     *
+     * @param xmlFragment the well-formed XML fragment
+     * @param withSecRestrictions enable/disable security restrictions.
+     * @return The OMElement created out of the string XML fragment.
+     * @throws XMLStreamException Error while parsing the XML fragment.
+     */
+    public static OMElement stringToOM(String xmlFragment, boolean withSecRestrictions)
+        throws XMLStreamException {
+        return stringToOM(OMAbstractFactory.getOMFactory(), xmlFragment, withSecRestrictions);
+    }
     
     /**
      * Create an OMElement from an XML fragment given as a string.
@@ -49,10 +62,29 @@ public class AXIOMUtil {
      */
     public static OMElement stringToOM(OMFactory omFactory, String xmlFragment)
             throws XMLStreamException {
-        
+        return stringToOM(omFactory, xmlFragment, false);
+    }
+
+    /**
+     * Create an OMElement from an XML fragment given as a string.
+     *
+     * @param omFactory           the factory used to build the object model
+     * @param xmlFragment         the well-formed XML fragment
+     * @param withSecRestrictions enable secure processing by disabling DTD and external entity.
+     * @return The OMElement created out of the string XML fragment.
+     * @throws XMLStreamException Error while parsing the XML fragment.
+     */
+    public static OMElement stringToOM(OMFactory omFactory, String xmlFragment,
+        boolean withSecRestrictions) throws XMLStreamException {
+
         if (xmlFragment != null) {
-            return OMXMLBuilderFactory.createOMBuilder(omFactory, new StringReader(xmlFragment))
+            if (withSecRestrictions) {
+                return OMXMLBuilderFactory.createOMBuilderWithSec(omFactory,
+                    new StringReader(xmlFragment)).getDocumentElement();
+            } else {
+                return OMXMLBuilderFactory.createOMBuilder(omFactory, new StringReader(xmlFragment))
                     .getDocumentElement();
+            }
         }
         return null;
     }

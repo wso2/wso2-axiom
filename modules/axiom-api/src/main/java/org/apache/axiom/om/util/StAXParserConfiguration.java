@@ -134,7 +134,29 @@ public interface StAXParserConfiguration {
             return "SOAP";
         }
     };
-    
+
+    /**
+     * Configuration that forces the parser to be secure against XML
+     * External Entity (XXE) attacks by disabling DTDs and external entities.
+     */
+    StAXParserConfiguration SECURE = new StAXParserConfiguration() {
+        public XMLInputFactory configure(XMLInputFactory factory, StAXDialect dialect) {
+            factory.setProperty(XMLInputFactory.SUPPORT_DTD, Boolean.FALSE);
+            factory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE);
+            factory.setXMLResolver(new XMLResolver() {
+                public Object resolveEntity(String publicID, String systemID, String baseURI,
+                    String namespace) throws XMLStreamException {
+                    return new ByteArrayInputStream(new byte[0]);
+                }
+            });
+            return factory;
+        }
+
+        public String toString() {
+            return "SECURE";
+        }
+    };
+
     /**
      * Apply the configuration to the given factory. The method MAY optionally
      * wrap the factory, e.g. to modify the behavior of the
