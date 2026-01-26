@@ -27,7 +27,7 @@
     <groupId>org.apache.ws.commons.axiom</groupId>
     <artifactId>axiom</artifactId>
     <name>Axiom</name>
-    <version>1.2.11-wso2v31-SNAPSHOT</version>
+    <version>1.2.11-wso2v31</version>
     <packaging>pom</packaging>
     <description>AXIOM API</description>
     <url>http://ws.apache.org/axiom/</url>
@@ -36,7 +36,7 @@
         <url>https://github.com/wso2/wso2-axiom.git</url>
         <developerConnection>scm:git:https://github.com/wso2/wso2-axiom.git</developerConnection>
         <connection>scm:git:https://github.com/wso2/wso2-axiom.git</connection>
-        <tag>HEAD</tag>
+        <tag>v1.2.11-wso2v31</tag>
     </scm>
 
     <modules>
