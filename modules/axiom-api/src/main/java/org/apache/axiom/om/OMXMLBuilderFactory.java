@@ -72,6 +72,18 @@ public class OMXMLBuilderFactory {
     public static OMXMLParserWrapper createOMBuilder(InputStream in) {
         return createOMBuilder(StAXParserConfiguration.DEFAULT, in);
     }
+
+    /**
+     * Create an object model builder that reads a plain XML document from the provided input stream
+     * with the secure parser configuration defined by {@link StAXParserConfiguration#SECURE}.
+     *
+     * @param in
+     *            the input stream representing the XML document
+     * @return the builder
+     */
+    public static OMXMLParserWrapper createOMBuilderWithSec(InputStream in) {
+        return createOMBuilder(StAXParserConfiguration.SECURE, in);
+    }
     
     /**
      * Create an object model builder that reads a plain XML document from the provided input stream
@@ -160,6 +172,19 @@ public class OMXMLBuilderFactory {
      */
     public static OMXMLParserWrapper createOMBuilder(OMFactory omFactory, Reader in) {
         return createOMBuilder(omFactory, StAXParserConfiguration.DEFAULT, in);
+    }
+
+    /**
+     * Create an object model builder that reads an XML document from the provided character stream
+     * using a specified object model factory and with the default parser configuration defined by
+     * {@link StAXParserConfiguration#SECURE}.
+     *
+     * @param omFactory the object model factory to use
+     * @param in        the character stream representing the XML document
+     * @return the builder
+     */
+    public static OMXMLParserWrapper createOMBuilderWithSec(OMFactory omFactory, Reader in) {
+        return createOMBuilder(omFactory, StAXParserConfiguration.SECURE, in);
     }
     
     /**
