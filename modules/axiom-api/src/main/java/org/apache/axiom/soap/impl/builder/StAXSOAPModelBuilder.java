@@ -200,7 +200,7 @@ public class StAXSOAPModelBuilder extends StAXOMBuilder {
      * @throws OMException
      */
     public SOAPEnvelope getSOAPEnvelope() throws OMException {
-        while ((envelope == null) && !done) {
+        while (!done) {
             next();
         }
         return envelope;
