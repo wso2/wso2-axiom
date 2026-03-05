@@ -321,7 +321,7 @@
     <properties>
         <axiom.version>1.2.11-wso2v34-SNAPSHOT</axiom.version>
         <exp.pkg.version.axiom>1.2.11.wso2v15</exp.pkg.version.axiom>
-        <jaxen.version>1.2.0</jaxen.version>
+        <jaxen.version>2.0.0</jaxen.version>
         <javax.mail.version>1.6.2</javax.mail.version>
         <dom4j.version>2.1.4</dom4j.version>
         <maven.bundle.plugin.version>3.2.0</maven.bundle.plugin.version>
