@@ -108,9 +108,9 @@
         </testResources>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.gmaven</groupId>
-                <artifactId>gmaven-plugin</artifactId>
-                <version>1.2</version>
+                <groupId>org.codehaus.gmavenplus</groupId>
+                <artifactId>gmavenplus-plugin</artifactId>
+                <version>3.0.2</version>
                 <executions>
                     <execution>
                         <phase>generate-test-resources</phase>
@@ -118,23 +118,33 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <source>
-                                <!-- This generates a list of the files in src/test/resources/conformance.
-                                     This is useful when loading these files from the classpath. -->
-                                <![CDATA[
-                                    def filelist = new File(project.build.directory, "generated-test-resources/conformance/filelist");
-                                    filelist.parentFile.mkdirs();
-                                    filelist.delete();
-                                    new File(project.basedir, "src/test/resources/conformance").eachFile({
-                                        if (it.file) {
-                                            filelist.append("$it.name\n");
-                                        }
-                                    })
-                                ]]>
-                            </source>
+                            <scripts>
+                                <script>
+                                    <!-- This generates a list of the files in src/test/resources/conformance.
+                                         This is useful when loading these files from the classpath. -->
+                                    <![CDATA[
+                                        def filelist = new File(project.build.directory, "generated-test-resources/conformance/filelist");
+                                        filelist.parentFile.mkdirs();
+                                        filelist.delete();
+                                        new File(project.basedir, "src/test/resources/conformance").eachFile({
+                                            if (it.file) {
+                                                filelist.append("$it.name\n");
+                                            }
+                                        })
+                                    ]]>
+                                </script>
+                            </scripts>
                         </configuration>
                     </execution>
                 </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.groovy</groupId>
+                        <artifactId>groovy</artifactId>
+                        <version>4.0.22</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
