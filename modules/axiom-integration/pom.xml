@@ -139,6 +139,12 @@
                 </executions>
             </plugin>
             <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>--add-opens java.base/java.lang=ALL-UNNAMED</argLine>
+                </configuration>
+            </plugin>
+            <plugin>
                 <artifactId>maven-deploy-plugin</artifactId>
                 <configuration>
                     <skip>true</skip>

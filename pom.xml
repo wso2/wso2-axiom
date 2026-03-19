@@ -355,9 +355,9 @@
         </pluginManagement>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.gmaven</groupId>
-                <artifactId>gmaven-plugin</artifactId>
-                <version>1.2</version>
+                <groupId>org.codehaus.gmavenplus</groupId>
+                <artifactId>gmavenplus-plugin</artifactId>
+                <version>3.0.2</version>
                 <executions>
                     <execution>
                         <id>generate-timestamp</id>
@@ -366,14 +366,24 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <source>
-                                import java.util.Date
-                                import java.text.MessageFormat
-                                project.properties['build_date'] = MessageFormat.format("{0,date,MMMMM dd, yyyy}", new Date())
-                            </source>
+                            <scripts>
+                                <script>
+                                    import java.util.Date
+                                    import java.text.MessageFormat
+                                    project.properties['build_date'] = MessageFormat.format("{0,date,MMMMM dd, yyyy}", new Date())
+                                </script>
+                            </scripts>
                         </configuration>
                     </execution>
                 </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.groovy</groupId>
+                        <artifactId>groovy</artifactId>
+                        <version>4.0.22</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
